@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="dom4j-1.6.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/dom4j-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-c3p0-4.3.9.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-commons-annotations-4.0.5.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-core-4.3.9.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jandex-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-logging-3.1.3.GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/junit-4.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jboss-logging-annotations-1.2.0.Beta1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mchange-commons-java-0.2.3.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-java-5.1.12-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/c3p0-0.9.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/antlr-2.7.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

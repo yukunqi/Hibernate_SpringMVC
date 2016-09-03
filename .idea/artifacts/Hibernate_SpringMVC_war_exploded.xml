@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Hibernate_SpringMVC:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Hibernate_SpringMVC_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Hibernate_SpringMVC/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Hibernate_SpringMVC" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Spring-4.3.1.RELEASE" />
+          <element id="library" level="project" name="dom4j-1.6.1" />
+          <element id="library" level="project" name="Spring MVC-4.3.1.RELEASE" />
+          <element id="library" level="project" name="jackson-annotations-2.6.0-rc4" />
+          <element id="library" level="project" name="gson-2.3.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/xinli</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.username">yukunqi_leap</property>
+        <property name="hibernate.connection.password">yukunqi123</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <mapping class="Entity.User"/>
+        <mapping class="Entity.Expert"/>
+        <mapping class="Entity.Expert_comment"/>
+        <mapping class="Entity.UserToken"/>
+        <mapping class="Entity.BookOrders"/>
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

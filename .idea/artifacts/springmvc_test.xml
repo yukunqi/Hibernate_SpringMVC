@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="springmvc_test">
+    <output-path>$PROJECT_DIR$/out/artifacts</output-path>
+    <root id="archive" name="springmvc_test.war">
+      <element id="artifact" artifact-name="Hibernate_SpringMVC:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jackson-annotations-2.6.0-rc4" />
+          <element id="library" level="project" name="gson-2.3.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
