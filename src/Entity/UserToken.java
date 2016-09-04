@@ -15,6 +15,10 @@ public class UserToken implements Serializable {
     public UserToken() {
     }
 
+    public UserToken(String token) {
+        Token = token;
+    }
+
     @Id
     @OneToOne
     @JoinColumn(name = "user_id",unique = true)

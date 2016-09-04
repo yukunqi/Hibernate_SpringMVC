@@ -31,6 +31,17 @@ public class User {
         this.login_name = login_name;
     }
 
+    public User(String login_name, String password) {
+        this.login_name = login_name;
+        this.password = password;
+    }
+
+    public User(String login_name, String password,Long id) {
+        this.id = id;
+        this.login_name = login_name;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue
     public Long getId() {

@@ -57,8 +57,16 @@ public class Login_registerDAOImp implements Login_registerDAO  {
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
-            UserToken token= (UserToken) session.get(UserToken.class,userId);
-            return token.getToken();
+            String sql="select new UserToken (t.token) from UserToken t where t.id=:user_id";
+            Query query = session.createQuery(sql);
+            query.setLong("user_id",userId);
+            List<UserToken> list= (List<UserToken>) query.list();
+            if (!list.isEmpty()){
+                UserToken token=list.get(0);
+                return token.getToken();
+            }else {
+                return "";
+            }
         }catch (HibernateException e){
             e.printStackTrace();
             return "";
@@ -73,7 +81,7 @@ public class Login_registerDAOImp implements Login_registerDAO  {
         Transaction tx=HibernateUtil.getTransaction();
         Map<String,Object> map=new HashMap<>();
         try {
-            String sql="from User a WHERE a.login_name=:name and a.password=:password";
+            String sql="select new User(a.login_name,a.password,a.id) from User a WHERE a.login_name=:name and a.password=:password";
             Query query = session.createQuery(sql);
             query.setString("name",name);
             query.setString("password",password);
