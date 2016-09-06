@@ -1,6 +1,7 @@
 package Entity;
 
 import Tool.HibernateUtil.java.HibernateUtil;
+import org.apache.commons.httpclient.util.DateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,19 +22,10 @@ public class Test1 {
 
     @Test
     public void Test1(){
-         Session session=HibernateUtil.getSession();
-         Transaction tx=HibernateUtil.getTransaction();
-        try {
-            String sql="select new User (a.login_name) from User a";
-            Query query =session.createQuery(sql);
-            List<User> list= (List<User>) query.list();
-            for (User u:list){
-                System.out.println(u.getLogin_name());
-            }
-        }catch (HibernateException e){
-            e.printStackTrace();
-        }finally {
-            HibernateUtil.closeSession(session);
-        }
+         String name1="sdfdf";
+        int code=name1.hashCode();
+        int result=code&0xf;
+        System.out.println(code);
+        System.out.println(result);
     }
 }

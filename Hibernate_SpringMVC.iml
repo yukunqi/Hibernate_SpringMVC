@@ -58,5 +58,6 @@
     <orderEntry type="library" name="httpclient-4.5" level="project" />
     <orderEntry type="library" name="commons-codec-1.6" level="project" />
     <orderEntry type="library" name="httpcore-4.4.1" level="project" />
+    <orderEntry type="library" name="com.springsource.org.apache.commons.fileupload-1.2.0" level="project" />
   </component>
 </module>

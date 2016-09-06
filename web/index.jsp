@@ -29,5 +29,16 @@
   <input type="submit" value="提交">
   <br>
 </form>
+  <h1>上传文件2 upload2</h1>
+  <form action="/upload/upload2/" method="post" enctype="multipart/form-data">
+    选择文件上传1:<input type="file" name="file1">
+    <br>
+    选择文件上传2:<input type="file" name="file2">
+    <br>
+    选择文件上传3:<input type="file" name="file3">
+    <br>
+    <input type="submit" value="提交">
+  </form>
+  <br>
   </body>
 </html>
