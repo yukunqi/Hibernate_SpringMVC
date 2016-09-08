@@ -12,7 +12,7 @@
   </head>
   <body>
   <h1>注册测试</h1>
-<form action="/login/userRegister/POST/" method="POST">
+<form action="login/userRegister/POST/" method="POST">
   name:<input type="text" name="name">
   <br>
   passord:<input type="password" name="password">
@@ -21,7 +21,7 @@
   <br>
 </form>
 <h1>登录测试</h1>
-<form action="/login/userLogin/POST/" method="POST">
+<form action="login/userLogin/POST/" method="POST">
   name:<input type="text" name="name">
   <br>
   passord:<input type="password" name="password">
@@ -30,7 +30,7 @@
   <br>
 </form>
   <h1>上传文件2 upload2</h1>
-  <form action="/upload/upload2/" method="post" enctype="multipart/form-data">
+  <form action="upload/upload2/" method="post" enctype="multipart/form-data">
     选择文件上传1:<input type="file" name="file1">
     <br>
     选择文件上传2:<input type="file" name="file2">

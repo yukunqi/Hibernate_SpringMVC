@@ -6,7 +6,7 @@ import javax.persistence.*;
  * 普通实体类
  */
 @Entity
-@Table(name = "User",schema = "xinli")
+@Table(name = "user",schema = "xinli")
 public class User {
 
     private Long id;

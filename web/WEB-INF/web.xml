@@ -30,4 +30,12 @@
         <servlet-name>UploadServlet</servlet-name>
         <url-pattern>/upload/*</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProxoolAdmin</servlet-name>
+        <servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProxoolAdmin</servlet-name>
+        <url-pattern>/proxoolAdmin</url-pattern>
+    </servlet-mapping>
 </web-app>

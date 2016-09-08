@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="98028331">
+  <component name="DataSourceManagerImpl" format="xml" hash="501079174">
     <data-source source="LOCAL" name="MySQL - leap@localhost" uuid="92e3d700-8de0-4057-8de3-d1169505d982">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

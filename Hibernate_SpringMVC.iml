@@ -59,5 +59,8 @@
     <orderEntry type="library" name="commons-codec-1.6" level="project" />
     <orderEntry type="library" name="httpcore-4.4.1" level="project" />
     <orderEntry type="library" name="com.springsource.org.apache.commons.fileupload-1.2.0" level="project" />
+    <orderEntry type="library" name="proxool-0.9.1" level="project" />
+    <orderEntry type="library" name="hibernate-proxool-4.3.9.Final" level="project" />
+    <orderEntry type="library" name="proxool-cglib" level="project" />
   </component>
 </module>

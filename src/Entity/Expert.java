@@ -11,12 +11,19 @@ import javax.persistence.*;
 public class Expert {
     private Long id;
     private User user;
+    //专业资质
     private String qualifications;
+    //擅长领域
     private String strongPoint;
+    //心理宣言
     private String motto;
+    //背景
     private String background;
+    //其他
     private String others;
+    //封面配图
     private String page_picture;
+    //咨询人数
     private int consult_number;
 
     public Expert() {

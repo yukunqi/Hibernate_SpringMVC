@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 用户身份识别加密token实体类
  */
 @Entity
-@Table(name = "userToken",schema = "xinli")
+@Table(name = "usertoken",schema = "xinli")
 public class UserToken implements Serializable {
     private User user;
     private String Token;

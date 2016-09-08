@@ -45,7 +45,7 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             tx.commit();
             return 1;
         }catch (HibernateException e){
-            e.printStackTrace();
+            logger.info("用户已经存在...不能注册");
             return 0;
         }finally {
             HibernateUtil.closeSession(session);

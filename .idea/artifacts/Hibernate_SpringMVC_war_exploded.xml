@@ -15,6 +15,9 @@
           <element id="library" level="project" name="gson-2.3.1" />
           <element id="library" level="project" name="httpclient-4.5" />
           <element id="library" level="project" name="com.springsource.org.apache.commons.fileupload-1.2.0" />
+          <element id="library" level="project" name="proxool-0.9.1" />
+          <element id="library" level="project" name="hibernate-proxool-4.3.9.Final" />
+          <element id="library" level="project" name="proxool-cglib" />
         </element>
       </element>
     </root>
