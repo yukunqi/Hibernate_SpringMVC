@@ -1,6 +1,9 @@
 package Upload.Controller;
 
 
+import Entity.Expert;
+import Entity.User;
+import Upload.Service.UploadExpertImp;
 import Upload.Service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +22,12 @@ public class UploadController {
 
     @Autowired
     private UploadService uploadService;
+    @Autowired
+    private UploadExpertImp uploadExpertImp;
 
     @ResponseBody
-    @RequestMapping(value = "/upload2/",method = RequestMethod.POST)
-    public Map<String,Object> upload2(HttpServletResponse response,HttpServletRequest request,Exception e){
+    @RequestMapping(value = "/uploadImage/",method = RequestMethod.POST)
+    public Map<String,Object> uploadImage(HttpServletRequest request){
             Map<String,Object> map=new HashMap<>();
             String url=uploadService.Upload(request);
                 if (url.equals("")){
@@ -32,5 +37,16 @@ public class UploadController {
                 }
             map.put("ImageUrl",url);
                 return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadPersoninfo/",method = RequestMethod.POST)
+    public Map<String,Object> uploadPersoninfo(HttpServletRequest request,String jsonExpert){
+
+        Map<String,Object> map=new HashMap<>();
+        int result=uploadExpertImp.uploadExpertinfo(jsonExpert,request);
+        map.put("StatusCode",result);
+        return map;
+
     }
 }

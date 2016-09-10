@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- the proxool configuration can be embedded within your own application's.
+Anything outside the "proxool" tag is ignored. -->
+<something-else-entirely>
+    <proxool>
+<alias>DBPool</alias>
+        <driver-url>
+            jdbc:mysql://localhost:3306/xinli?useUnicode=true&amp;characterEncoding=UTF8
+        </driver-url>
+        <driver-class>
+            com.mysql.jdbc.Driver
+        </driver-class>
+        <driver-properties>
+            <property name="user" value="yukunqi_leap"/>
+            <property name="password" value="yukunqi123"/>
+        </driver-properties>
+        <house-keeping-test-sql>SELECT CURRENT_DATE</house-keeping-test-sql>
+        <simultaneous-build-throttle>20</simultaneous-build-throttle>
+        <maximum-connection-count>15</maximum-connection-count>
+        <minimum-connection-count>10</minimum-connection-count>
+    </proxool>
+</something-else-entirely>

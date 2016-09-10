@@ -7,7 +7,7 @@ import javax.persistence.*;
  * 心理专家实体类
  */
 @Entity
-@Table(name = "Expert",schema = "xinli")
+@Table(name = "expert",schema = "xinli")
 public class Expert {
     private Long id;
     private User user;
@@ -25,6 +25,8 @@ public class Expert {
     private String page_picture;
     //咨询人数
     private int consult_number;
+    //用户id
+    private Long user_id;
 
     public Expert() {
     }
@@ -110,5 +112,30 @@ public class Expert {
 
     public void setConsult_number(int consult_number) {
         this.consult_number = consult_number;
+    }
+
+    //表示非持久化的注解，这样注解上去的字段不会对应到数据库中去
+    @Transient
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Expert{" +
+                "id=" + id +
+                ", user=" + user +
+                ", qualifications='" + qualifications + '\'' +
+                ", strongPoint='" + strongPoint + '\'' +
+                ", motto='" + motto + '\'' +
+                ", background='" + background + '\'' +
+                ", others='" + others + '\'' +
+                ", page_picture='" + page_picture + '\'' +
+                ", consult_number=" + consult_number +
+                '}';
     }
 }

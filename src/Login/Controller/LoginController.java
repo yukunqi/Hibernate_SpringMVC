@@ -18,8 +18,7 @@ public class LoginController {
     @RequestMapping(value = "/userRegister/POST/",method = RequestMethod.POST)
     public Map<String,Object> User_register(@RequestParam String name,
                                             @RequestParam String password){
-        Map<String, Object> map = login_registerService.register_data(name, password);
-        return map;
+        return login_registerService.register_data(name, password);
     }
     @RequestMapping(value = "userLogin/POST/",method = RequestMethod.POST)
     public Map<String,Object> User_login(@RequestParam String name,

@@ -7,7 +7,7 @@ import java.util.Date;
  * 咨询师评价实体类
  */
 @Entity
-@Table(name = "Expert_comment",schema = "xinli")
+@Table(name = "expert_comment",schema = "xinli")
 public class Expert_comment {
     private Long id;
     private User user;

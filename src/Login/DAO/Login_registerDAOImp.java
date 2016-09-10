@@ -46,6 +46,9 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             return 1;
         }catch (HibernateException e){
             logger.info("用户已经存在...不能注册");
+            if (tx!=null){
+                tx.rollback();
+            }
             return 0;
         }finally {
             HibernateUtil.closeSession(session);
@@ -69,6 +72,9 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             }
         }catch (HibernateException e){
             e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
             return "";
         }catch (NullPointerException e){
             return "";
@@ -98,6 +104,9 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             return map;
         }catch (HibernateException e){
             e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
             return map;
         }finally {
             HibernateUtil.closeSession(session);

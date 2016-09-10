@@ -7,7 +7,7 @@ import java.util.Date;
  * 预约订单类
  */
 @Entity
-@Table(name = "Bookorders",schema = "xinli")
+@Table(name = "bookorders",schema = "xinli")
 public class BookOrders {
 
     private Long id;

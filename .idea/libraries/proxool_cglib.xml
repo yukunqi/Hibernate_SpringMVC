@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="proxool-cglib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/proxool-cglib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
