@@ -31,6 +31,14 @@ public class Expert {
     public Expert() {
     }
 
+    public Expert(User user,int consult_number, String motto, String page_picture,Long id) {
+        this.id = id;
+        this.user = user;
+        this.motto = motto;
+        this.page_picture = page_picture;
+        this.consult_number = consult_number;
+    }
+
     @Id
     @GeneratedValue
     public Long getId() {

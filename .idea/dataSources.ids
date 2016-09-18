@@ -96,7 +96,6 @@
         <data-type>varchar(255)</data-type>
       </column>
       <column id="27" parent="3" name="page_picture">
-        <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>

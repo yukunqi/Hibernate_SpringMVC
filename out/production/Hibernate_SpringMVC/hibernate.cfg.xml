@@ -4,6 +4,8 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        <!-- DB schema will be updated if needed -->
+        <property name="hbm2ddl.auto">update</property>
         <property name="hibernate.connection.provider_class">org.hibernate.proxool.internal.ProxoolConnectionProvider</property>
         <property name="hibernate.proxool.pool_alias">DBPool</property>
         <property name="hibernate.proxool.xml">proxool.xml</property>
@@ -19,8 +21,5 @@
         <mapping class="Entity.Expert_comment"/>
         <mapping class="Entity.UserToken"/>
         <mapping class="Entity.BookOrders"/>
-
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>
 </hibernate-configuration>

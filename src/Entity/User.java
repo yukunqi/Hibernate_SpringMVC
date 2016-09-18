@@ -10,14 +10,23 @@ import javax.persistence.*;
 public class User {
 
     private Long id;
+    //登录名
     private String login_name;
+    //密码
     private String password;
+    //头像
     private String profile;
+    //昵称
     private String username;
+    //性别
     private String gender;
+    //简介
     private String introduction;
+    //学校名称
     private String school_name;
+    //学院
     private String college;
+    //邮箱
     private String email;
 
     public User() {

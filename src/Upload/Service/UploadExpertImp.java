@@ -1,9 +1,11 @@
 package Upload.Service;
 
 import Entity.Expert;
+import Entity.Jsondata;
 import Upload.DAO.ExpertDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 public class UploadExpertImp {
 
     @Autowired
-    private UploadService uploadService;
+    private UploadFile uploadFile;
     @Autowired
     private ExpertDAO expertdao;
 
     public int uploadExpertinfo(String json, HttpServletRequest request){
         Gson gson=new Gson();
-        Expert expert=gson.fromJson(json,Expert.class);
-        String imageUrl = uploadService.Upload(request);
+        Jsondata<Expert> jsondata=gson.fromJson(json,new TypeToken<Jsondata<Expert>>(){}.getType());
+        Expert expert=jsondata.getJsondata();
+      //  Expert expert=gson.fromJson(json,Expert.class);
+        String imageUrl = uploadFile.Upload(request);
         if (imageUrl.equals("")){
             return 2;
         }else {

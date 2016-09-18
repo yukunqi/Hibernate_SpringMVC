@@ -16,6 +16,9 @@ public class Expert_comment {
     private Date comment_time;
     private Expert expert;
 
+    private Long expert_id;
+    private Long user_id;
+
     public Expert_comment() {
     }
 
@@ -30,7 +33,7 @@ public class Expert_comment {
     }
 
     @OneToOne
-    @JoinColumn(name = "user_id",unique = true)
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }
@@ -67,12 +70,30 @@ public class Expert_comment {
     }
 
     @OneToOne
-    @JoinColumn(name = "expert_id",unique = true)
+    @JoinColumn(name = "expert_id")
     public Expert getExpert() {
         return expert;
     }
 
     public void setExpert(Expert expert) {
         this.expert = expert;
+    }
+
+    @Transient
+    public Long getExpert_id() {
+        return expert_id;
+    }
+
+    public void setExpert_id(Long expert_id) {
+        this.expert_id = expert_id;
+    }
+
+    @Transient
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }
