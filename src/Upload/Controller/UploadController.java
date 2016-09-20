@@ -18,7 +18,6 @@ import java.util.Map;
 @Controller
 public class UploadController {
 
-
     @Autowired
     private UploadFile uploadFile;
     @Autowired

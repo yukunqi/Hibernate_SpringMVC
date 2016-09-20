@@ -1,6 +1,7 @@
 package Upload.Service;
 
 import Entity.ExpertsInfo;
+import Upload.DAO.ExpertsInfoDAOImp;
 import Upload.DAO.expertInfoDAO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class ExpertsInfoServiceImp implements ExpertInfoService {
 
     @Autowired
     private expertInfoDAO expertsInfoDAO;
+
 
     public List<ExpertsInfo> expertsInfoList(String type){
         return null;
@@ -38,5 +40,14 @@ public class ExpertsInfoServiceImp implements ExpertInfoService {
      */
     public  List<ExpertsInfo> expertsInfoList2(){
      return null;
+    }
+
+    //问一下这里为什么会是空指针，而在dao类里面同样的代码却有数据
+    @Test
+    public void Test(){
+        List<ExpertsInfo> list = expertsInfoDAO.query_experts_list();
+        for (ExpertsInfo e:list){
+            System.out.println(e.getConsult_number());
+        }
     }
 }

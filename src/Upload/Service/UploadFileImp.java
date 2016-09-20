@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class UploadFileImp implements UploadFile{
 
     //图片浏览地址的url前缀
- // private String RPE_URL="http://119.29.199.192:8080";
+    //private String RPE_URL="http://119.29.199.192:8080";
     private String RPE_URL="http://localhost:8080";
     private Logger logger=Logger.getLogger(UploadFileImp.class.getName());
 
@@ -93,8 +93,8 @@ public class UploadFileImp implements UploadFile{
         int hashcode=saveFilename.hashCode();
         //配置了Tomcat外部的访问路径，要在配置中设置虚拟路径找到把Tomcat访问
         //路径映射到这个本地磁盘的某个路径下
-        String savePath="F:/JavaProject_For_Intellij IDEA/javaProject_static/image";
-       //String savePath="/data/web_static/image";
+         String savePath="F:/JavaProject_For_Intellij IDEA/javaProject_static/image";
+        //String savePath="/data/web_static/image";
         //为防止一个目录下面出现太多文件，要使用hash算法打散存储
         int dir=hashcode&0xf;
         int dir2=(hashcode&0xf0)>>4;
