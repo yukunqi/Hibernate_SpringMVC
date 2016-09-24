@@ -5,7 +5,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 public class ExpertsInfoDAOImp implements expertInfoDAO{
 
     private Logger logger=Logger.getLogger(ExpertsInfoDAOImp.class.getName());
-
     /**
      * 返回整个老师的所有信息
      * 包括了好评率
@@ -138,11 +137,5 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
         }
     }
 
-    @Test
-    public void test(){
-        List<ExpertsInfo> list = query_experts_list();
-        for (ExpertsInfo e:list){
-            System.out.println(e.getConsult_number());
-        }
-    }
+
 }

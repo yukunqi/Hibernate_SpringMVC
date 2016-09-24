@@ -94,4 +94,5 @@ public class ExpertsInfo {
     public void setGood_comment(double good_comment) {
         this.good_comment = good_comment;
     }
+
 }

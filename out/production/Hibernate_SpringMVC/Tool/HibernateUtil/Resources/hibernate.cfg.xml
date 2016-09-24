@@ -17,9 +17,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <mapping class="Entity.User"/>
-        <mapping class="Entity.Expert"/>
-        <mapping class="Entity.Expert_comment"/>
-        <mapping class="Entity.UserToken"/>
-        <mapping class="Entity.BookOrders"/>
+        <mapping class="Entity.Note"/>
+        <mapping class="Entity.Note_Comment"/>
     </session-factory>
 </hibernate-configuration>

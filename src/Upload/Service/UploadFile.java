@@ -11,6 +11,6 @@ public interface UploadFile{
      * @param request
      * @return  图片URL
      */
-    public String Upload(HttpServletRequest request);
+     String Upload(HttpServletRequest request);
 
 }
