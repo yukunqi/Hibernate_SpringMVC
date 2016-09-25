@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12d4101b-901a-43c2-902b-204362b00b25" name="Default" comment="修改了前台传输数据变成json格式">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.classpath" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.project" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Hibernate_SpringMVC.eml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Hibernate_SpringMVC.userlibraries" afterPath="" />
     </list>
     <ignored path="Hibernate_SpringMVC.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -846,7 +849,7 @@
       <workItem from="1474291768199" duration="5322000" />
       <workItem from="1474374062099" duration="874000" />
       <workItem from="1474728342884" duration="162000" />
-      <workItem from="1474780960290" duration="223000" />
+      <workItem from="1474780960290" duration="676000" />
     </task>
     <task id="LOCAL-00001" summary="first time">
       <created>1472908850471</created>
@@ -919,7 +922,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275678000" />
+    <option name="totallyTimeSpent" value="276131000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
