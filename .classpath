@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src/Tool/HibernateUtil/Resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spring-4.3.1.RELEASE"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spring MVC-4.3.1.RELEASE"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/dom4j-1.6.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Java EE 6-Java EE 6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jackson-annotations-2.6.0-rc4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/gson-2.3.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-codec-1.9"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/httpclient-4.5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-codec-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/httpcore-4.4.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/com.springsource.org.apache.commons.fileupload-1.2.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/proxool-0.9.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/hibernate-proxool-4.3.9.Final"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/proxool-cglib"/>
+	<classpathentry kind="output" path="out/production/Hibernate_SpringMVC"/>
+</classpath>
