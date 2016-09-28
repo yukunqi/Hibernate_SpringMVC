@@ -19,5 +19,8 @@
         <mapping class="Entity.User"/>
         <mapping class="Entity.Note"/>
         <mapping class="Entity.Note_Comment"/>
+        <mapping class="Entity.Expert_comment"/>
+        <mapping class="Entity.Expert"/>
+        <mapping class="Entity.Article"/>
     </session-factory>
 </hibernate-configuration>

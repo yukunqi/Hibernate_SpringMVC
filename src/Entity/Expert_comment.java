@@ -9,14 +9,20 @@ import java.util.Date;
 @Entity
 @Table(name = "expert_comment",schema = "xinli")
 public class Expert_comment {
+
     private Long id;
+
     private User user;
+    //评论内容
     private String comment;
+    //好坏程度
     private int level;
+    //评论时间
     private Date comment_time;
     private Expert expert;
-
+    //咨询师id
     private Long expert_id;
+    //用户id
     private Long user_id;
 
     public Expert_comment() {

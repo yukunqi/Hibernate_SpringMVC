@@ -1,10 +1,12 @@
 package Upload.DAO;
+import Entity.Expert;
 import Entity.ExpertsInfo;
 import Tool.HibernateUtil.java.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
@@ -137,5 +139,82 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
         }
     }
 
+    /**
+     * 根据老师id去查询咨询评价总数
+     * @param expert_id
+     * @return
+     */
+    public Long get_expertComment_num(Long expert_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select count (exc.id) from Expert_comment exc where exc.expert.id=:expert_id";
+            Query query = session.createQuery(sql);
+            query.setLong("expert_id",expert_id);
+            List<Long> list = query.list();
+            Long aLong = list.get(0);
+            return aLong;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return (long) -1;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
 
+    /**
+     * 根据id去查询指定用户发布的文章总数
+     * @param expert_id
+     * @return
+     */
+    public Long get_expertArticle_num(Long expert_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select count (art.id) from Article art where art.user.id=:user_id";
+            Query query = session.createQuery(sql);
+            query.setLong("user_id",expert_id);
+            List<Long> list = query.list();
+            Long aLong = list.get(0);
+            return aLong;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return (long) -1;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 根据老师id去查询老师的咨询页面信息
+     * @param expert_id
+     * @return
+     */
+    public Expert get_ExpertchatRoominfo(Long expert_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+        return null;
+    }
+    @Test
+    public void test(){
+        Long a=get_expertArticle_num((long) 5);
+        System.out.println(a);
+    }
 }

@@ -59,7 +59,7 @@ public class Expert {
         this.user = user;
     }
 
-    @Column(name = "qualifications",nullable = false)
+    @Column(name = "qualifications")
     public String getQualifications() {
         return qualifications;
     }
@@ -68,7 +68,7 @@ public class Expert {
         this.qualifications = qualifications;
     }
 
-    @Column(name = "strongPoint",nullable = false)
+    @Column(name = "strongPoint")
     public String getStrongPoint() {
         return strongPoint;
     }
@@ -86,7 +86,7 @@ public class Expert {
         this.motto = motto;
     }
 
-    @Column(name = "background",nullable = false)
+    @Column(name = "background")
     public String getBackground() {
         return background;
     }
@@ -95,7 +95,7 @@ public class Expert {
         this.background = background;
     }
 
-    @Column(name = "others",nullable = false)
+    @Column(name = "others")
     public String getOthers() {
         return others;
     }

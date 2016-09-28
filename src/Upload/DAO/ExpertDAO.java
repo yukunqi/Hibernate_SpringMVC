@@ -28,7 +28,16 @@ public class ExpertDAO {
             Query query = session.createQuery(sql);
             query.setLong("user_id",expert.getUser_id());
             List<User> list= (List<User>) query.list();
-            expert.setUser(list.get(0));
+            User user=list.get(0);
+            String sql1="update User u set u.email =:email ,u.phone_number=:phone_number,u.gender=:gender,u.username=:username where u.id=:user_id";
+            Query query1 = session.createQuery(sql1);
+            query1.setString("email",expert.getUser().getEmail());
+            query1.setString("username",expert.getUser().getUsername());
+            query1.setString("gender",expert.getUser().getGender());
+            query1.setString("phone_number",expert.getUser().getPhone_number());
+            query1.setLong("user_id",expert.getUser_id());
+            query1.executeUpdate();
+            expert.setUser(user);
             session.save(expert);
             tx.commit();
             return 1;

@@ -39,6 +39,12 @@ public class UploadController {
                 return map;
     }
 
+    /**
+     * 老师信息上传接口
+     * @param request
+     * @param jsonExpert
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/uploadExpertinfo",method = RequestMethod.POST)
     public Map<String,Object> uploadExpertinfo(HttpServletRequest request,String jsonExpert){

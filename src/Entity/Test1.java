@@ -142,4 +142,36 @@ public class Test1 {
         double r1=b.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         System.out.println(r1);
     }
+
+    @Test
+    public void Test(){
+        User user=new User();
+        user.setUsername("李建强");
+        user.setEmail("123123sdfsdf");
+        user.setPhone_number("12562236985");
+        user.setGender("1");
+        Expert expert=new Expert();
+        expert.setPage_picture("sf234324234");
+        expert.setUser_id((long) 7);
+        expert.setMotto("fuck you");
+        expert.setUser(user);
+        Map<String,Object> map=new HashMap<>();
+        map.put("expertCardNumber","122645");
+        Jsondata<Expert> jsondata=new Jsondata<>();
+        jsondata.setJsondata(expert);
+        jsondata.setMap(map);
+        Gson gson=new Gson();
+        String str=gson.toJson(jsondata);
+        System.out.println(str);
+        Jsondata<Expert> jsondata1=gson.fromJson(str,new TypeToken<Jsondata<Expert>>(){}.getType());
+    }
+    @Test
+    public void test_workpalce_json(){
+        Expert expert=new Expert();
+        expert.setMotto("dasdads");
+        expert.setPage_picture("adfsfsd");
+        Gson gson=new Gson();
+        String s = gson.toJson(expert);
+        System.out.println(s);
+    }
 }

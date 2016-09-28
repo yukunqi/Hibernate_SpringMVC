@@ -28,6 +28,8 @@ public class User {
     private String college;
     //邮箱
     private String email;
+    //电话号码
+    private String phone_number;
 
     public User() {
     }
@@ -140,5 +142,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Column(name = "phone_number",nullable = false)
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 }
