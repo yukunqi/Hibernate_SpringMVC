@@ -22,5 +22,6 @@
         <mapping class="Entity.Expert_comment"/>
         <mapping class="Entity.Expert"/>
         <mapping class="Entity.Article"/>
+        <mapping class="Entity.BookOrders"/>
     </session-factory>
 </hibernate-configuration>

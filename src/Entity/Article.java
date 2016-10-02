@@ -32,6 +32,15 @@ public class Article {
     public Article() {
     }
 
+    public Article(Long article_id, String article_title, Date build_date, String article_picture, int watched_num, int good_num) {
+        this.article_id = article_id;
+        this.article_title = article_title;
+        this.build_date = build_date;
+        this.article_picture = article_picture;
+        this.watched_num = watched_num;
+        this.good_num = good_num;
+    }
+
     @Id
     @GeneratedValue
     public Long getArticle_id() {

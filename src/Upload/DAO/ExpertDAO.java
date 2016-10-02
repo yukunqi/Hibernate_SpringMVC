@@ -1,5 +1,6 @@
 package Upload.DAO;
 
+import Entity.BookOrders;
 import Entity.Expert;
 import Entity.User;
 import Tool.HibernateUtil.java.HibernateUtil;
@@ -7,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.Test;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,6 +46,25 @@ public class ExpertDAO {
         }catch (HibernateException e){
             e.printStackTrace();
             logger.info("存储老师信息失败....");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    public int save_chatOrderData(BookOrders bookOrders){
+        Session session= HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            session.save(bookOrders);
+            tx.commit();
+            return 1;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            logger.info("存储咨询订单信息失败....");
             if (tx!=null){
                 tx.rollback();
             }

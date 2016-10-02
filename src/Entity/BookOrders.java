@@ -16,7 +16,7 @@ public class BookOrders {
     private String people_call;
     private int age;
     private String gender;
-    private int phonenumber;
+    private String phonenumber;
     private User user;
     private Expert expert;
 
@@ -81,11 +81,11 @@ public class BookOrders {
     }
 
     @Column(name = "phonenumber",nullable = false)
-    public int getPhonenumber() {
+    public String getPhonenumber() {
         return phonenumber;
     }
 
-    public void setPhonenumber(int phonenumber) {
+    public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 

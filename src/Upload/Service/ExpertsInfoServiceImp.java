@@ -1,6 +1,6 @@
 package Upload.Service;
 
-import Entity.ExpertsInfo;
+import Entity.*;
 import Upload.DAO.expertInfoDAO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,47 @@ public class ExpertsInfoServiceImp implements ExpertInfoService {
     @Autowired
     private  expertInfoDAO expertsInfoDAO;
 
-    public List<ExpertsInfo> expertsInfoList(String type){
-        switch (type) {
-            case "1":
-                return expertsInfoList1();
-            case "2":
-                return expertsInfoList2();
-            case "3":
-                return expertsInfoList3();
-            default:
-                return new ArrayList<>();
+    @Override
+    public List<ExpertsInfo> expertsInfoList(String type) {
+            switch (type) {
+                case "1":
+                    return expertsInfoList1();
+                case "2":
+                    return expertsInfoList2();
+                case "3":
+                    return expertsInfoList3();
+                default:
+                    return new ArrayList<>();
+            }
+    }
+
+    @Override
+    public Map<String,Object> get_ExpertPersonalPage_Data(Long expert_id) {
+        Map<String,Object> map=new HashMap<>();
+
+        ExpertPersonalPage page=expertsInfoDAO.get_ExpertchatRoominfo(expert_id);
+        if (page==null){
+            map.put("StatusCode",0);
+        }else {
+            Long expertArticle_num = expertsInfoDAO.get_expertArticle_num(page.getUser_id());
+            List<Expert_comment_item> expertComment_list = expertsInfoDAO.get_expertComment_list(expert_id);
+            List<ArticleInfo> userArticle_list = expertsInfoDAO.get_userArticle_list(page.getUser_id());
+            Long expertComment_num = expertsInfoDAO.get_expertComment_num(expert_id);
+            Long expert_goodComment = expertsInfoDAO.getExpert_goodComment(expert_id);
+
+            page.setGood_comment_num(expert_goodComment);
+            page.setComment_total_number(expertComment_num);
+            page.setArticle_total_number(expertArticle_num);
+            if (!userArticle_list.isEmpty()){
+                page.setArticle(userArticle_list.get(0));
+            }
+            if (!expertComment_list.isEmpty()){
+                page.setItem(expertComment_list.get(0));
+            }
+            map.put("StatusCode",1);
+            map.put("jsondata",page);
         }
+        return map;
     }
 
     /**

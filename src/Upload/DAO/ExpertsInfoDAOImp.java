@@ -1,7 +1,7 @@
 package Upload.DAO;
-import Entity.Expert;
-import Entity.ExpertsInfo;
+import Entity.*;
 import Tool.HibernateUtil.java.HibernateUtil;
+import com.google.gson.Gson;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -51,7 +53,7 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
      * @param expert_id
      * @return
      */
-    private Long getExpert_totalComment(Long expert_id){
+    public Long getExpert_totalComment(Long expert_id){
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
@@ -76,7 +78,7 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
      * @param  expert_id
      * @return
      */
-    private Long getExpert_goodComment(Long expert_id){
+    public Long getExpert_goodComment(Long expert_id){
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
@@ -167,16 +169,16 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
 
     /**
      * 根据id去查询指定用户发布的文章总数
-     * @param expert_id
+     * @param user_id
      * @return
      */
-    public Long get_expertArticle_num(Long expert_id){
+    public Long get_expertArticle_num(Long user_id){
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
             String sql="select count (art.id) from Article art where art.user.id=:user_id";
             Query query = session.createQuery(sql);
-            query.setLong("user_id",expert_id);
+            query.setLong("user_id",user_id);
             List<Long> list = query.list();
             Long aLong = list.get(0);
             return aLong;
@@ -192,29 +194,79 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
     }
 
     /**
-     * 根据老师id去查询老师的咨询页面信息
+     * 根据老师id去查询老师的咨询页面封面配图、个人简介、咨询人数等信息
      * @param expert_id
      * @return
      */
-    public Expert get_ExpertchatRoominfo(Long expert_id){
+    public ExpertPersonalPage get_ExpertchatRoominfo(Long expert_id){
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
-
+            String sql="select new Entity.ExpertPersonalPage(exp.user.introduction,exp.page_picture,exp.consult_number,exp.user.id) from Expert exp where exp.id=:expert_id";
+            Query query = session.createQuery(sql);
+            query.setLong("expert_id",expert_id);
+            return (ExpertPersonalPage) query.uniqueResult();
         }catch (HibernateException e){
             e.printStackTrace();
             if (tx!=null){
                 tx.rollback();
             }
-
+            return null;
         }finally {
             HibernateUtil.closeSession(session);
         }
-        return null;
+    }
+
+    /**
+     * 根据id去查询老师的咨询评价集合
+     * @param expert_id
+     * @return
+     */
+    public List<Expert_comment_item> get_expertComment_list(Long expert_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select new Entity.Expert_comment_item(exp_comment.user.username,exp_comment.comment,exp_comment.user.profile,exp_comment.comment_time,exp_comment.level,exp_comment.user.id) from Expert_comment exp_comment where exp_comment.expert.id=:expert_id order by exp_comment.id desc ";
+            Query query = session.createQuery(sql);
+            query.setLong("expert_id",expert_id);
+            return (List<Expert_comment_item>) query.list();
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            System.out.println("null");
+            return null;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 根据用户id去查询相应的文章集合
+     * @param user_id
+     * @return
+     */
+    public List<ArticleInfo> get_userArticle_list(Long user_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select new Entity.ArticleInfo(art.id,art.article_title,art.build_date,art.article_picture,art.watched_num,art.good_num) from Article art where art.user.id=:user_id order by art.user.id desc ";
+            Query query = session.createQuery(sql);
+            query.setLong("user_id",user_id);
+            return (List<ArticleInfo>) query.list();
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return null;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
     }
     @Test
     public void test(){
-        Long a=get_expertArticle_num((long) 5);
-        System.out.println(a);
+        ExpertPersonalPage expertchatRoominfo = get_ExpertchatRoominfo((long) 0);
     }
 }

@@ -1,5 +1,7 @@
 package Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 老师个人信息展示页面
  */
@@ -20,9 +22,18 @@ public class ExpertPersonalPage {
     //咨询评价的单个实体
     private Expert_comment_item item;
     //文章
-    private Article article;
+    private ArticleInfo article;
+    //用户id
+    private Long user_id;
 
     public ExpertPersonalPage() {
+    }
+
+    public ExpertPersonalPage(String introduction, String page_picture, int consult_number,Long user_id) {
+        this.introduction = introduction;
+        this.page_picture = page_picture;
+        this.consult_number = consult_number;
+        this.user_id=user_id;
     }
 
     public String getPage_picture() {
@@ -73,6 +84,7 @@ public class ExpertPersonalPage {
         this.article_total_number = article_total_number;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public Expert_comment_item getItem() {
         return item;
     }
@@ -81,11 +93,20 @@ public class ExpertPersonalPage {
         this.item = item;
     }
 
-    public Article getArticle() {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public ArticleInfo getArticle() {
         return article;
     }
 
-    public void setArticle(Article article) {
+    public void setArticle(ArticleInfo article) {
         this.article = article;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }

@@ -1,8 +1,10 @@
 package Upload.Service;
 
+import Entity.ExpertPersonalPage;
 import Entity.ExpertsInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 老师信息接口
@@ -19,4 +21,12 @@ public interface ExpertInfoService {
      * @return 排序好的list集合
      */
     List<ExpertsInfo> expertsInfoList(String type);
+
+    /**
+     * 根据老师id去查询相应的咨询介绍页面的数据
+     * @param expert_id
+     * @return
+     */
+    Map<String,Object> get_ExpertPersonalPage_Data(Long expert_id);
+
 }

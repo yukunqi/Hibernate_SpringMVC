@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="
 
 http://www.springframework.org/schema/beans
@@ -33,7 +33,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
         <property name="suffix" value=".jsp"> </property>
         <property name="prefix" value="/jsp/"> </property>
     </bean>
-
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"
+          p:ignoreDefaultModelOnRedirect="true" >
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
    <!-- <bean id="multipartResolver" class="Upload.Service.Service_test">
         <property name="defaultEncoding" value="utf-8"> </property>
         <property name="maxUploadSize" value="104857600"> </property>

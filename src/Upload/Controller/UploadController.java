@@ -1,5 +1,6 @@
 package Upload.Controller;
 
+
 import Entity.ExpertsInfo;
 import Upload.Service.ExpertInfoService;
 import Upload.Service.UploadExpertImp;
@@ -66,6 +67,20 @@ public class UploadController {
             map.put("ExpertsInfo",list);
             map.put("StatusCode",1);
         }
+        return map;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/GET/ExpertsChatRoomInfo/{expert_id}",method = RequestMethod.GET)
+    public Map<String, Object> getExpertChatRoomData(@PathVariable(value = "expert_id") Long expert_id){
+        Map<String, Object> expertPersonalPage_data = expertInfoService.get_ExpertPersonalPage_Data(expert_id);
+        return expertPersonalPage_data;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/POST/BookOrder",method = RequestMethod.POST)
+    public Map<String,Object> uploadOrderData(String bookOrder_json){
+        int i = uploadExpertImp.uploadOrder(bookOrder_json);
+        Map<String,Object> map=new HashMap<>();
+        map.put("StatusCode",i);
         return map;
     }
 }

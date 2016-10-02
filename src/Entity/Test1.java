@@ -1,6 +1,9 @@
 package Entity;
 
 import Tool.HibernateUtil.java.HibernateUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.hibernate.HibernateException;
@@ -10,6 +13,8 @@ import org.hibernate.Transaction;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -146,17 +151,17 @@ public class Test1 {
     @Test
     public void Test(){
         User user=new User();
-        user.setUsername("李建强");
-        user.setEmail("123123sdfsdf");
-        user.setPhone_number("12562236985");
+        user.setUsername("奥巴马");
+        user.setEmail("123fsdf");
+        user.setPhone_number("125985");
         user.setGender("1");
         Expert expert=new Expert();
-        expert.setPage_picture("sf234324234");
-        expert.setUser_id((long) 7);
-        expert.setMotto("fuck you");
+        expert.setPage_picture("sf2234");
+        expert.setUser_id((long) 12);
+        expert.setMotto("hee");
         expert.setUser(user);
         Map<String,Object> map=new HashMap<>();
-        map.put("expertCardNumber","122645");
+        map.put("expertCardNumber","1288945");
         Jsondata<Expert> jsondata=new Jsondata<>();
         jsondata.setJsondata(expert);
         jsondata.setMap(map);
@@ -167,11 +172,44 @@ public class Test1 {
     }
     @Test
     public void test_workpalce_json(){
+        ObjectMapper mapper=new ObjectMapper();
+       // mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        ExpertPersonalPage page=new ExpertPersonalPage();
+        try {
+            String str=mapper.writeValueAsString(page);
+            System.out.println(str);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void test(){
+        BookOrders bookOrders=new BookOrders();
+        bookOrders.setAge(12);
+        bookOrders.setGender("男");
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date time= null;
+        try {
+            time = format.parse("2016-09-30 15:00:00");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(time);
+        bookOrders.setBook_time(time);
+        bookOrders.setDescription("324243242fsdfs");
+        bookOrders.setPeople_call("dsder3424");
+        bookOrders.setPhonenumber("12569952315");
         Expert expert=new Expert();
-        expert.setMotto("dasdads");
-        expert.setPage_picture("adfsfsd");
+        User user=new User();
+        expert.setId((long) 24);
+        user.setId((long) 9);
+        bookOrders.setExpert(expert);
+        bookOrders.setUser(user);
         Gson gson=new Gson();
-        String s = gson.toJson(expert);
-        System.out.println(s);
+        String str=gson.toJson(bookOrders);
+        System.out.println(str);
+        BookOrders bookOrders1 = gson.fromJson(str, BookOrders.class);
+        System.out.println(bookOrders.getBook_time());
     }
 }

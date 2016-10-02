@@ -1,5 +1,6 @@
 package Upload.Service;
 
+import Entity.BookOrders;
 import Entity.Expert;
 import Entity.Jsondata;
 import Upload.DAO.ExpertDAO;
@@ -36,5 +37,11 @@ public class UploadExpertImp {
             int i = expertdao.saveExpertData(expert);
             return i;
         }
+    }
+
+    public int uploadOrder(String json){
+        Gson gson=new Gson();
+        BookOrders bookOrders = gson.fromJson(json, BookOrders.class);
+        return expertdao.save_chatOrderData(bookOrders);
     }
 }
