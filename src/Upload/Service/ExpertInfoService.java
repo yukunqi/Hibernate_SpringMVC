@@ -1,6 +1,6 @@
 package Upload.Service;
 
-import Entity.ExpertPersonalPage;
+import Entity.BookOrderInfo;
 import Entity.ExpertsInfo;
 
 import java.util.List;
@@ -28,5 +28,21 @@ public interface ExpertInfoService {
      * @return
      */
     Map<String,Object> get_ExpertPersonalPage_Data(Long expert_id);
+    /**
+     * 获取老师的预约时间集合
+     * @param expert_id
+     * @return
+     */
+    Map<String,Object> get_expert_AppointmentSetting(Long expert_id);
+    /**
+     * 根据传入的类型和用户id来查询相应的预约订单数据集合
+     * @param type 订单类型
+     * @param user_id 用户id
+     * 1.返回所有预约时间区间在服务器时间之前的订单数据集合(已结束)
+     * 2.返回所有预约时间区间在服务器时间之后的数据集合(即将开始)
+     * 3.返回所有预约时间区间在服务器时间之中的数据集合(正在进行)
+     * @return
+     */
+    List<BookOrderInfo> bookOrderInfoList(String type, Long user_id);
 
 }

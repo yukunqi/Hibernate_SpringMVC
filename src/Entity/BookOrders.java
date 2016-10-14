@@ -19,9 +19,14 @@ public class BookOrders {
     private String phonenumber;
     private User user;
     private Expert expert;
+    private String duration_time;
 
 
     public BookOrders() {
+    }
+
+    public BookOrders(Long id) {
+        this.id = id;
     }
 
     @Id
@@ -107,5 +112,14 @@ public class BookOrders {
 
     public void setExpert(Expert expert) {
         this.expert = expert;
+    }
+
+    @Column(name = "duration_time")
+    public String getDuration_time() {
+        return duration_time;
+    }
+
+    public void setDuration_time(String duration_time) {
+        this.duration_time = duration_time;
     }
 }

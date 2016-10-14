@@ -26,6 +26,8 @@ public class LoginController {
          Gson gson=new Gson();
          Jsondata<User> jsondata=gson.fromJson(UserRegisterJson,new TypeToken<Jsondata<User>>(){}.getType());
          User user=jsondata.getJsondata();
+        System.out.println(user.getLogin_name());
+        System.out.println(user.getPassword());
          return login_registerService.register_data(user.getLogin_name(),user.getPassword());
     }
     @RequestMapping(value = "userLogin/POST",method = RequestMethod.POST)

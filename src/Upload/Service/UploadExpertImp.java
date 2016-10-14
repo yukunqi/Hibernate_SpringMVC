@@ -1,5 +1,6 @@
 package Upload.Service;
 
+import Entity.AppointmentSetting;
 import Entity.BookOrders;
 import Entity.Expert;
 import Entity.Jsondata;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 老师信息上传类
@@ -43,5 +45,11 @@ public class UploadExpertImp {
         Gson gson=new Gson();
         BookOrders bookOrders = gson.fromJson(json, BookOrders.class);
         return expertdao.save_chatOrderData(bookOrders);
+    }
+
+    public int uploadAppointmentSetting(String json){
+        Gson gson=new Gson();
+        List<AppointmentSetting> list = gson.fromJson(json,new TypeToken<List<AppointmentSetting>>(){}.getType());
+        return expertdao.save_AppointmentSetting(list);
     }
 }

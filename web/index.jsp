@@ -8,49 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>注册用户</title>
+    <title>接口测试网页</title>
   </head>
   <body>
-  <h1>注册测试</h1>
-<form action="login/userRegister/POST" method="POST">
-  name:<input type="text" name="name">
-  <br>
-  passord:<input type="password" name="password">
-  <br>
-  <input type="submit" value="提交">
-  <br>
-</form>
-<h1>登录测试</h1>
-<form action="login/userLogin/POST" method="POST">
-  name:<input type="text" name="name">
-  <br>
-  passord:<input type="password" name="password">
-  <br>
-  <input type="submit" value="提交">
-  <br>
-</form>
-  <h1>上传文件2 upload2</h1>
-  <form action="upload/uploadImage" method="post" enctype="multipart/form-data">
-    选择文件上传1:<input type="file" name="file1">
-    <br>
-    选择文件上传2:<input type="file" name="file2">
-    <br>
-    <input type="submit" value="提交">
-  </form>
-  <br>
-  <h1>文字和图片上传</h1>
-  <form action="upload/uploadPersoninfo" method="post" enctype="multipart/form-data">
-    选择文件:<input type="file" name="file"><br>
-    name: <input type="text" name="name"><br>
-    descriptions：<input type="text" name="desc"><br>
-    <input type="submit" value="提交">
-  </form>
-<h1>对象传递</h1>
-  <form action="upload/uploadPersoninfo" method="post">
-    username: <input type="text" name="username"><br>
-    introduction：<input type="text" name="introduction"><br>
-    <input type="submit" value="提交">
-  </form>
   <a href="20160930_API.jsp">20160930三个接口</a>
+  <a href="JsonInfo.jsp">登录注册json测试</a>
+  <a href="time_setting_api.jsp">老师预约时间设置接口测试</a>
   </body>
 </html>

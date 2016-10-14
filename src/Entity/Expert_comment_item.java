@@ -1,5 +1,6 @@
 package Entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -14,20 +15,25 @@ public class Expert_comment_item {
     //头像url
     private String profile;
     //评论时间
-    private Date comment_time;
+    private String comment_time;
     //好坏程度
     private int level;
     //用户id
     private Long user_id;
 
+    private static SimpleDateFormat format;
+    static {
+        format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
     public Expert_comment_item() {
     }
 
     public Expert_comment_item(String author_name, String comment_content, String profile, Date comment_time, int level) {
+
         this.author_name = author_name;
         this.comment_content = comment_content;
         this.profile = profile;
-        this.comment_time = comment_time;
+        this.comment_time = format.format(comment_time);
         this.level = level;
     }
 
@@ -35,7 +41,7 @@ public class Expert_comment_item {
         this.author_name = author_name;
         this.comment_content = comment_content;
         this.profile = profile;
-        this.comment_time = comment_time;
+        this.comment_time = format.format(comment_time);
         this.level = level;
         this.user_id = user_id;
     }
@@ -64,11 +70,11 @@ public class Expert_comment_item {
         this.comment_content = comment_content;
     }
 
-    public Date getComment_time() {
+    public String getComment_time() {
         return comment_time;
     }
 
-    public void setComment_time(Date comment_time) {
+    public void setComment_time(String comment_time) {
         this.comment_time = comment_time;
     }
 

@@ -144,7 +144,7 @@ public class User {
         this.email = email;
     }
 
-    @Column(name = "phone_number",nullable = false)
+    @Column(name = "phone_number")
     public String getPhone_number() {
         return phone_number;
     }

@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <!-- DB schema will be updated if needed -->
-        <property name="hbm2ddl.auto">update</property>
+        <!--<property name="hbm2ddl.auto">update</property>-->
         <property name="hibernate.connection.provider_class">org.hibernate.proxool.internal.ProxoolConnectionProvider</property>
         <property name="hibernate.proxool.pool_alias">DBPool</property>
         <property name="hibernate.proxool.xml">proxool.xml</property>
@@ -23,5 +23,7 @@
         <mapping class="Entity.Expert"/>
         <mapping class="Entity.Article"/>
         <mapping class="Entity.BookOrders"/>
+        <mapping class="Entity.UserToken"/>
+        <mapping class="Entity.AppointmentSetting"/>
     </session-factory>
 </hibernate-configuration>

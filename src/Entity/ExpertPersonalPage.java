@@ -23,16 +23,19 @@ public class ExpertPersonalPage {
     private Expert_comment_item item;
     //文章
     private ArticleInfo article;
+    //老师id
+    private Long expert_id;
     //用户id
     private Long user_id;
 
     public ExpertPersonalPage() {
     }
 
-    public ExpertPersonalPage(String introduction, String page_picture, int consult_number,Long user_id) {
+    public ExpertPersonalPage(String introduction, String page_picture, int consult_number,Long expert_id,Long user_id) {
         this.introduction = introduction;
         this.page_picture = page_picture;
         this.consult_number = consult_number;
+        this.expert_id=expert_id;
         this.user_id=user_id;
     }
 
@@ -84,7 +87,7 @@ public class ExpertPersonalPage {
         this.article_total_number = article_total_number;
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     public Expert_comment_item getItem() {
         return item;
     }
@@ -93,13 +96,21 @@ public class ExpertPersonalPage {
         this.item = item;
     }
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+
     public ArticleInfo getArticle() {
         return article;
     }
 
     public void setArticle(ArticleInfo article) {
         this.article = article;
+    }
+
+    public Long getExpert_id() {
+        return expert_id;
+    }
+
+    public void setExpert_id(Long expert_id) {
+        this.expert_id = expert_id;
     }
 
     public Long getUser_id() {

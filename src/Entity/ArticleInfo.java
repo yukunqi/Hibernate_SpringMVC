@@ -1,5 +1,6 @@
 package Entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -9,18 +10,22 @@ public class ArticleInfo {
 
     private Long article_id;
     private String article_title;
-    private Date article_build_date;
+    private String article_build_date;
     private String article_picture;
     private int watched_num;
     private int good_num;
 
+    private static SimpleDateFormat format;
+    static {
+        format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
     public ArticleInfo() {
     }
 
     public ArticleInfo(Long article_id, String article_title, Date article_build_date, String article_picture, int watched_num, int good_num) {
         this.article_id = article_id;
         this.article_title = article_title;
-        this.article_build_date = article_build_date;
+        this.article_build_date = format.format(article_build_date);
         this.article_picture = article_picture;
         this.watched_num = watched_num;
         this.good_num = good_num;
@@ -42,11 +47,11 @@ public class ArticleInfo {
         this.article_title = article_title;
     }
 
-    public Date getArticle_build_date() {
+    public String  getArticle_build_date() {
         return article_build_date;
     }
 
-    public void setArticle_build_date(Date article_build_date) {
+    public void setArticle_build_date(String article_build_date) {
         this.article_build_date = article_build_date;
     }
 

@@ -3,9 +3,7 @@ import Entity.*;
 
 import java.util.List;
 
-/**
- *
- */
+
 public interface expertInfoDAO {
 
     /**
@@ -63,4 +61,17 @@ public interface expertInfoDAO {
      * @return
      */
     List<ArticleInfo> get_userArticle_list(Long user_id);
+
+    /**
+     * 根据老师id去查询老师设置的咨询预约时间集合
+     * @param expert_id
+     * @return
+     */
+    List<AppointmentSetting> get_expert_AppointmentSetting(Long expert_id);
+    /**
+     * 根据用户的id去查询咨询订单集合
+     * @param user_id
+     * @return
+     */
+    List<BookOrderInfo> get_User_All_BookOrders(Long user_id);
 }

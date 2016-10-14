@@ -10,10 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -114,7 +111,7 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
             return list;
         }catch (HibernateException e){
             e.printStackTrace();
-            logger.info("查询失败....");
+            logger.info("查询老师信息集合失败....");
             if (tx!=null){
                 tx.rollback();
             }
@@ -202,7 +199,7 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
         Session session=HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
-            String sql="select new Entity.ExpertPersonalPage(exp.user.introduction,exp.page_picture,exp.consult_number,exp.user.id) from Expert exp where exp.id=:expert_id";
+            String sql="select new Entity.ExpertPersonalPage(exp.user.introduction,exp.page_picture,exp.consult_number,exp.id,exp.user.id) from Expert exp where exp.id=:expert_id";
             Query query = session.createQuery(sql);
             query.setLong("expert_id",expert_id);
             return (ExpertPersonalPage) query.uniqueResult();
@@ -265,8 +262,53 @@ public class ExpertsInfoDAOImp implements expertInfoDAO{
             HibernateUtil.closeSession(session);
         }
     }
-    @Test
-    public void test(){
-        ExpertPersonalPage expertchatRoominfo = get_ExpertchatRoominfo((long) 0);
+
+    /**
+     * 根据老师id去查询老师设置的咨询预约时间集合
+     * @param expert_id
+     * @return
+     */
+    public List<AppointmentSetting> get_expert_AppointmentSetting(Long expert_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select new AppointmentSetting(a1.weekday,a1.start_time,a1.duration_time,a1.limited_people_num,a1.ordered_people_num) from AppointmentSetting a1 where a1.expert.id=:expert_id";
+            Query query = session.createQuery(sql);
+            query.setLong("expert_id",expert_id);
+            return query.list();
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return null;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 根据用户的id去查询咨询订单集合
+     * @param user_id
+     * @return
+     */
+    public List<BookOrderInfo> get_User_All_BookOrders(Long user_id){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select new Entity.BookOrderInfo(book.id,book.user.username,book.book_time,book.duration_time,book.user.profile) from BookOrders book where book.user.id=:user_id";
+            Query query = session.createQuery(sql);
+            query.setLong("user_id",user_id);
+            return query.list();
+        }catch (HibernateException e){
+            e.printStackTrace();
+            logger.info("查询用户id为"+user_id+"预约订单数据集合失败.....");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return null;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
     }
 }

@@ -8,6 +8,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.Test;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -30,6 +31,14 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             User user=new User();
             user.setLogin_name(name);
             user.setPassword(password);
+            user.setEmail("");
+            user.setPhone_number("");
+            user.setGender("");
+            user.setUsername("");
+            user.setCollege("");
+            user.setSchool_name("");
+            user.setProfile("");
+            user.setIntroduction("");
             session.save(user);
 
             String sql="select new User(u1.id) from User u1 where u1.login_name=:name";
@@ -45,6 +54,7 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             tx.commit();
             return 1;
         }catch (HibernateException e){
+            e.printStackTrace();
             logger.info("用户已经存在...不能注册");
             if (tx!=null){
                 tx.rollback();
