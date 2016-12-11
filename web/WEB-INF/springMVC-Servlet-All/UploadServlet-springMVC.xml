@@ -22,6 +22,7 @@ http://www.springframework.org/schema/mvc
 
 http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 <context:component-scan base-package="Upload"/>
+<context:property-placeholder location="classpath:Upload/conf/imageUrl.properties"/>
     <mvc:annotation-driven/>
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="utf-8"> </property>

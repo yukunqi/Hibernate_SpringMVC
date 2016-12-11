@@ -1,5 +1,7 @@
 package Login.DAO;
 
+import Entity.User;
+
 import java.util.Map;
 
 /**
@@ -9,11 +11,9 @@ public interface Login_registerDAO {
 
     /**
      * 用户注册数据接口
-     * @param name
-     * @param password
      * @return  注册状态码
      */
-    public int SaveUserData(String name,String password);
+     int SaveUserData(User user);
 
     /**
      * 用户登录后返回的验证token

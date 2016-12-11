@@ -3,6 +3,7 @@ package Login.DAO;
 
 import Entity.User;
 import Entity.UserToken;
+import Entity.UserType;
 import Tool.HibernateUtil.java.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -24,26 +25,22 @@ public class Login_registerDAOImp implements Login_registerDAO  {
     private Logger logger=Logger.getLogger(Login_registerDAOImp.class.getName());
 
     @Override
-    public int SaveUserData(String name, String password) {
+    public int SaveUserData(User user) {
         Session session= HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
-            User user=new User();
-            user.setLogin_name(name);
-            user.setPassword(password);
-            user.setEmail("");
-            user.setPhone_number("");
-            user.setGender("");
-            user.setUsername("");
-            user.setCollege("");
-            user.setSchool_name("");
+
             user.setProfile("");
+            user.setSchool_name("深圳大学");
             user.setIntroduction("");
+            UserType userType=new UserType();
+            userType.setId(Long.valueOf(1));
+            user.setUserType(userType);
             session.save(user);
 
             String sql="select new User(u1.id) from User u1 where u1.login_name=:name";
             Query query = session.createQuery(sql);
-            query.setString("name",name);
+            query.setString("name",user.getLogin_name());
             List<User> list= (List<User>) query.list();
             User u1=list.get(0);
             UserToken token=new UserToken();
@@ -97,7 +94,7 @@ public class Login_registerDAOImp implements Login_registerDAO  {
         Transaction tx=HibernateUtil.getTransaction();
         Map<String,Object> map=new HashMap<>();
         try {
-            String sql="select new User(a.login_name,a.password,a.id) from User a WHERE a.login_name=:name and a.password=:password";
+            String sql="select new User(a.login_name,a.password,a.id,a.userType) from User a WHERE a.login_name=:name and a.password=:password";
             Query query = session.createQuery(sql);
             query.setString("name",name);
             query.setString("password",password);
@@ -107,9 +104,19 @@ public class Login_registerDAOImp implements Login_registerDAO  {
               logger.info("没有 "+name+" 这个用户...");
             }else {
                 User user=list.get(0);
-                map.put("user_id",user.getId());
+//                String sql1="select e.id from Expert e where e.user.id=:user_id";
+//                Query query1 = session.createQuery(sql1);
+//                query1.setLong("user_id",user.getId());
+//                Long expert_id = (Long) query1.uniqueResult();
+//                System.out.println(expert_id);
+                  map.put("user_id",user.getId());
+                  map.put("user_type",user.getUserType().getId());
+//                if (expert_id!=null){
+//                    map.put("expert_id",expert_id);
+//                }else{
+//                    map.put("expert_id",Long.valueOf(0));
+//                }
             }
-
             tx.commit();
             return map;
         }catch (HibernateException e){

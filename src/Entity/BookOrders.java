@@ -9,20 +9,29 @@ import java.util.Date;
 @Entity
 @Table(name = "bookorders",schema = "xinli")
 public class BookOrders {
-
+    //id
     private Long id;
+    //预约创建时间
     private Date book_time;
+    //问题描述
     private String description;
-    private String people_call;
-    private int age;
-    private String gender;
-    private String phonenumber;
-    private User user;
-    private Expert expert;
+    //预约的用户
+    private User user_id;
+    //被预约的专家用户
+    private User expert_user_id;
+    //咨询持续时长
     private String duration_time;
+    //预约时间段id
+    private AppointmentSetting appointmentSetting;
 
 
     public BookOrders() {
+    }
+
+    public BookOrders(Long id,Date book_time, String duration_time) {
+        this.id=id;
+        this.book_time = book_time;
+        this.duration_time = duration_time;
     }
 
     public BookOrders(Long id) {
@@ -57,62 +66,6 @@ public class BookOrders {
         this.description = description;
     }
 
-    @Column(name = "age",nullable = false)
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-
-    @Column(name = "people_call",nullable = false)
-    public String getPeople_call() {
-        return people_call;
-    }
-
-    public void setPeople_call(String people_call) {
-        this.people_call = people_call;
-    }
-
-    @Column(name = "gender",nullable = false)
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    @Column(name = "phonenumber",nullable = false)
-    public String getPhonenumber() {
-        return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "expert_id")
-    public Expert getExpert() {
-        return expert;
-    }
-
-    public void setExpert(Expert expert) {
-        this.expert = expert;
-    }
 
     @Column(name = "duration_time")
     public String getDuration_time() {
@@ -122,4 +75,35 @@ public class BookOrders {
     public void setDuration_time(String duration_time) {
         this.duration_time = duration_time;
     }
+
+    @OneToOne
+    @JoinColumn(name = "appointment_id")
+    public AppointmentSetting getAppointmentSetting() {
+        return appointmentSetting;
+    }
+
+    public void setAppointmentSetting(AppointmentSetting appointmentSetting) {
+        this.appointmentSetting = appointmentSetting;
+    }
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    public User getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(User user_id) {
+        this.user_id = user_id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "expert_user_id")
+    public User getExpert_user_id() {
+        return expert_user_id;
+    }
+
+    public void setExpert_user_id(User expert_user_id) {
+        this.expert_user_id = expert_user_id;
+    }
+
+
 }

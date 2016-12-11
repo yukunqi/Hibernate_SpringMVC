@@ -17,13 +17,10 @@ public class ExpertPersonalPage {
     private Long good_comment_num;
     //评论总数
     private Long comment_total_number;
-    //文章总数
-    private Long article_total_number;
     //咨询评价的单个实体
     private Expert_comment_item item;
-    //文章
-    private ArticleInfo article;
     //老师id
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long expert_id;
     //用户id
     private Long user_id;
@@ -31,11 +28,10 @@ public class ExpertPersonalPage {
     public ExpertPersonalPage() {
     }
 
-    public ExpertPersonalPage(String introduction, String page_picture, int consult_number,Long expert_id,Long user_id) {
+    public ExpertPersonalPage(String introduction, String page_picture, int consult_number,Long user_id) {
         this.introduction = introduction;
         this.page_picture = page_picture;
         this.consult_number = consult_number;
-        this.expert_id=expert_id;
         this.user_id=user_id;
     }
 
@@ -79,30 +75,12 @@ public class ExpertPersonalPage {
         this.comment_total_number = comment_total_number;
     }
 
-    public Long getArticle_total_number() {
-        return article_total_number;
-    }
-
-    public void setArticle_total_number(Long article_total_number) {
-        this.article_total_number = article_total_number;
-    }
-
-
     public Expert_comment_item getItem() {
         return item;
     }
 
     public void setItem(Expert_comment_item item) {
         this.item = item;
-    }
-
-
-    public ArticleInfo getArticle() {
-        return article;
-    }
-
-    public void setArticle(ArticleInfo article) {
-        this.article = article;
     }
 
     public Long getExpert_id() {

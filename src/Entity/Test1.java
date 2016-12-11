@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.mchange.v2.c3p0.stmt.GooGooStatementCache;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -100,36 +101,6 @@ public class Test1 {
         System.out.println(expert1.getMotto());
     }
 
-    /**
-     * 查询老师咨询好评率
-     */
-    @Test
-    public void Test_good_comment(){
-        Session session=HibernateUtil.getSession();
-        Transaction tx=HibernateUtil.getTransaction();
-        try {
-            //String sql="select new Entity.ExpertsInfo(e1.page_picture,e1.user.login_name,e1.user.college,e1.motto,e1.consult_number,e1.id) from Expert e1";
-            String sql="select new Entity.Expert_percent(exc.expert.id) from Expert_comment exc";
-            Query query = session.createQuery(sql);
-
-            String sql1="select new Entity.Expert_percent(count(exc.level)) from Expert_comment exc where exc.expert.id=:expert_id";
-            Query query1 = session.createQuery(sql1);
-
-            List<Expert_percent> list1 = (List<Expert_percent>) query1.list();
-            tx.commit();
-
-            for (Expert_percent e:list1){
-                System.out.println(e.getExpert_id()+"    "+e.getTotalComment());
-            }
-        }catch (HibernateException e){
-            e.printStackTrace();
-            if (tx!=null){
-                tx.rollback();
-            }
-        }finally {
-            HibernateUtil.closeSession(session);
-        }
-    }
 
     /**
      * 两个long型数字，相除保留两位小数
@@ -180,8 +151,6 @@ public class Test1 {
     @Test
     public void test(){
         BookOrders bookOrders=new BookOrders();
-        bookOrders.setAge(12);
-        bookOrders.setGender("男");
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time;
         try {
@@ -191,15 +160,12 @@ public class Test1 {
             e.printStackTrace();
         }
         bookOrders.setDescription("324243242fsdfs");
-        bookOrders.setPeople_call("dsder3424");
-        bookOrders.setPhonenumber("12569952315");
-        bookOrders.setDuration_time("30");
-        Expert expert=new Expert();
+        User expert=new User();
         User user=new User();
         expert.setId((long) 8);
         user.setId((long) 9);
-        bookOrders.setExpert(expert);
-        bookOrders.setUser(user);
+        bookOrders.setExpert_user_id(expert);
+        bookOrders.setUser_id(user);
         Gson gson=new Gson();
         String str=gson.toJson(bookOrders);
         System.out.println(str);
@@ -243,28 +209,29 @@ public class Test1 {
     //上传老师预约时间设置的json数据
     @Test
     public void test_json_update_date(){
-        Expert expert=new Expert();
+        User expert=new User();
+        Date date=new Date();
         expert.setId((long) 8);
         AppointmentSetting a1=new AppointmentSetting();
-        a1.setWeekday("3");
-        a1.setStart_time("08:30:00");
+
+        a1.setSetting_date(date);
         a1.setDuration_time("30");
         a1.setLimited_people_num(10);
-        a1.setExpert(expert);
+        a1.setExpert_user_id(expert);
 
         AppointmentSetting a2=new AppointmentSetting();
-        a2.setWeekday("4");
-        a2.setStart_time("14:30:00");
+
+        a2.setSetting_date(date);
         a2.setDuration_time("30");
         a2.setLimited_people_num(10);
-        a2.setExpert(expert);
+        a2.setExpert_user_id(expert);
 
         AppointmentSetting a3=new AppointmentSetting();
-        a3.setWeekday("2");
-        a3.setStart_time("16:30:00");
+
+        a3.setSetting_date(date);
         a3.setDuration_time("30");
         a3.setLimited_people_num(10);
-        a3.setExpert(expert);
+        a3.setExpert_user_id(expert);
 
         List<AppointmentSetting> list=new ArrayList<>();
         list.add(a1);
@@ -276,7 +243,11 @@ public class Test1 {
         System.out.println(str);
         List<AppointmentSetting> list2=gson.fromJson(str,new TypeToken<List<AppointmentSetting>>(){}.getType());
         AppointmentSetting appointmentSetting = list2.get(0);
-        System.out.println(a1.getWeekday());
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm:ss");
+        GregorianCalendar calendar=new GregorianCalendar();
+        calendar.setTime(appointmentSetting.getSetting_date());
+        System.out.println(format.format(appointmentSetting.getSetting_date()));
+        System.out.println(calendar.get(Calendar.DAY_OF_WEEK)-1);
 
     }
     @Test
@@ -327,14 +298,170 @@ public class Test1 {
     public void test_time_form(){
 
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format1=new SimpleDateFormat("HH:mm:ss");
         try {
-            Date parse = format.parse("2016-10-12 08:5:00");
+            Date parse = format.parse("2016-10-28 8:5:00");
             System.out.println(parse.toString());
+            System.out.println(format1.format(parse));
             GregorianCalendar calendar=new GregorianCalendar();
             calendar.setTime(parse);
             System.out.println(calendar.getTime().toString());
+            System.out.println(calendar.get(Calendar.DAY_OF_WEEK)-1);
+            System.out.println(calendar.get(Calendar.HOUR)+":"+calendar.get(Calendar.MINUTE)+":"+calendar.get(Calendar.SECOND));
+            System.out.println(calendar.get(Calendar.DATE));
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
+    @Test
+    public void test_gson(){
+        String json="{\n" +
+                "    \"id\": 2\n" +
+                "}";
+        Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        try {
+            User user = gson.fromJson(json, User.class);
+            System.out.println(user.getId());
+            System.out.println(user.getProfile());
+        }catch (JsonSyntaxException e){
+            e.printStackTrace();
+            System.out.println("json wrong");
+        }catch (Exception e){
+            System.out.println("没有这个字段");
+        }
+    }
+    @Test
+    public void test_user(){
+        Jsondata<Long> jsondata=new Jsondata<>();
+        jsondata.setJsondata(Long.valueOf(2));
+        Gson gson=new Gson();
+        String json = gson.toJson(jsondata);
+        System.out.println(json);
+        Jsondata<Long> j1 = gson.fromJson(json, new TypeToken<Jsondata<Long>>(){}.getType());
+        System.out.println(j1.getJsondata());
+    }
+
+    @Test
+    public void test_leftJoin(){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="select e from Expert e inner join e.user";
+            Query query = session.createQuery(sql);
+            List<Expert> list = query.list();
+            System.out.println(list.size());
+            for (Expert e: list){
+                System.out.println(e.getId());
+            }
+            tx.commit();
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    @Test
+    public void cache_test(){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+
+        Session session2=HibernateUtil.getSession();
+        Transaction tx2=HibernateUtil.getTransaction();
+        try {
+            User u = (User) session.get(User.class, Long.valueOf(4));
+            System.out.println(u.getId());
+            tx.commit();
+            HibernateUtil.closeSession(session);
+            User u1 = (User) session2.get(User.class,Long.valueOf(4));
+            System.out.println(u1.getId());
+            tx2.commit();
+            HibernateUtil.closeSession(session2);
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+        }
+    }
+    @Test
+    public void test1(){
+        User user =new User();
+        user.setGender("男");
+        user.setCollege("传播学院");
+        user.setGrade("大一");
+        user.setLogin_name("2013200021");
+        user.setPassword("yukunqi123");
+        user.setUsername("柚子余");
+        user.setPhone_number("19328399445");
+        user.setWechat("uud123");
+        user.setEmail("397234829@qq.com");
+        Jsondata<User> jsondata=new Jsondata<>();
+        jsondata.setJsondata(user);
+        Gson gson=new Gson();
+        String str=gson.toJson(jsondata);
+        System.out.println(str);
+    }
+    @Test
+    public void test2(){
+        BookOrders bookOrders=new BookOrders();
+        bookOrders.setDescription("ddsadasd");
+        bookOrders.setBook_time(new Date());
+        User expert_user=new User();
+        expert_user.setId(Long.valueOf(1));
+        bookOrders.setExpert_user_id(expert_user);
+        User user=new User();
+        user.setId(Long.valueOf(2));
+        bookOrders.setUser_id(user);
+        Gson gson=new Gson();
+        String string=gson.toJson(bookOrders);
+        System.out.println(string);
+    }
+    @Test
+    public void test3(){
+
+        try {
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            AppointmentSetting a=new AppointmentSetting();
+            a.setDuration_time("30");
+            a.setLimited_people_num(5);
+            a.setSetting_date(simpleDateFormat.parse("2016-12-02 15:16:00"));
+            User expert=new User();
+            expert.setId(Long.valueOf(2));
+            a.setExpert_user_id(expert);
+            Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            String string=gson.toJson(a);
+            System.out.println(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void test4(){
+
+        try {
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            BookOrders bookOrders=new BookOrders();
+            bookOrders.setDescription("dsdfsdfdsf");
+            Date date=simpleDateFormat.parse("2016-12-03 15:16:00");
+            System.out.println(date.toString());
+            bookOrders.setBook_time(date);
+            User user=new User();
+            user.setId(Long.valueOf(3));
+            User expert=new User();
+            expert.setId(Long.valueOf(4));
+            bookOrders.setUser_id(user);
+            bookOrders.setExpert_user_id(expert);
+            Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            String string=gson.toJson(bookOrders);
+            System.out.println(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * 咨询列表中的每个list_item的信息
@@ -21,18 +22,35 @@ public class ExpertsInfo {
     //好评率
     private double good_comment;
     //老师id
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long expert_id;
+    //老师用户 id
+    private Long user_id;
+    //用户类型名称
+    private String user_type_name;
 
     public ExpertsInfo() {
     }
 
-    public ExpertsInfo(String imageUrl, String expert_name, String expert_college, String motto,int consult_number,Long expert_id) {
+    public ExpertsInfo(String imageUrl, String expert_name, String expert_college, String motto,int consult_number,String user_type_name,Long user_id) {
+        this.imageUrl = imageUrl;
+        this.expert_name = expert_name;
+        this.expert_college = expert_college;
+        this.motto = motto;
+        this.consult_number = consult_number;
+        this.user_type_name=user_type_name;
+        this.user_id=user_id;
+    }
+
+    public ExpertsInfo(String imageUrl, String expert_name, String expert_college, String motto,int consult_number,Long expert_id,String user_type_name,Long user_id) {
         this.imageUrl = imageUrl;
         this.expert_name = expert_name;
         this.expert_college = expert_college;
         this.motto = motto;
         this.consult_number = consult_number;
         this.expert_id=expert_id;
+        this.user_type_name=user_type_name;
+        this.user_id=user_id;
     }
 
     public Long getExpert_id() {
@@ -95,4 +113,19 @@ public class ExpertsInfo {
         this.good_comment = good_comment;
     }
 
+    public String getUser_type_name() {
+        return user_type_name;
+    }
+
+    public void setUser_type_name(String user_type_name) {
+        this.user_type_name = user_type_name;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
 }

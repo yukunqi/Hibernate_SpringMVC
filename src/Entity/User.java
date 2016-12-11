@@ -1,13 +1,20 @@
 package Entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 普通实体类
  */
 @Entity
 @Table(name = "user",schema = "xinli")
-public class User {
+@Cache(region = "Entity.User",usage =CacheConcurrencyStrategy.READ_WRITE)
+public class User implements Serializable {
 
     private Long id;
     //登录名
@@ -30,8 +37,26 @@ public class User {
     private String email;
     //电话号码
     private String phone_number;
+    //权限
+    private int authority;
+    //年级
+    private String grade;
+    //微信号
+    private String wechat;
+    //用户类型
+    private UserType userType;
 
     public User() {
+    }
+
+    public User(Long id, String username, String profile, String gender, String introduction, String school_name, String college) {
+        this.id = id;
+        this.username = username;
+        this.profile = profile;
+        this.gender = gender;
+        this.introduction = introduction;
+        this.school_name = school_name;
+        this.college = college;
     }
 
     public User(Long id) {
@@ -47,11 +72,21 @@ public class User {
         this.password = password;
     }
 
+
     public User(String login_name, String password,Long id) {
         this.id = id;
         this.login_name = login_name;
         this.password = password;
     }
+
+    public User(String login_name, String password, Long id, UserType userType) {
+        this.login_name = login_name;
+        this.password = password;
+        this.id = id;
+        this.userType = userType;
+    }
+
+
 
     @Id
     @GeneratedValue
@@ -151,5 +186,41 @@ public class User {
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    @Column(name = "authority")
+    public int getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(int authority) {
+        this.authority = authority;
+    }
+
+    @Column(name = "grade")
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+    @Column(name = "wechat")
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "user_type")
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    name:cache唯一标识
+    eternal：缓存是否永久有效
+    maxElementsInMemory：内存中最大缓存对象数
+    overflowToDisk(true,false)：缓存对象达到最大数后，将缓存写到硬盘中
+    diskPersistent：硬盘持久化
+    timeToIdleSeconds：缓存清除时间
+    timeToLiveSeconds：缓存存活时间
+    memoryStoreEvictionPolicy：缓存清空策略
+    1.FIFO：first in first out 先讲先出
+    2.LFU： Less Frequently Used 一直以来最少被使用的
+    3.LRU：Least Recently Used  最近最少使用的
+-->
+<ehcache>
+	<!-- 指定一个文件目录，当EhCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
+	<diskStore path="F:/JavaProject_For_Intellij IDEA/javaProject_static/cacheData/"/>
+	<!-- 设定缓存的默认数据过期策略 -->
+	<defaultCache
+			maxElementsInMemory="10000" 
+			eternal="false" 
+			overflowToDisk="true"
+			timeToIdleSeconds="10"
+			timeToLiveSeconds="20"
+			diskPersistent="false"
+			diskExpiryThreadIntervalSeconds="120"/>
+
+	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+		   maxElementsInMemory="5000"
+		   eternal="true"
+		   overflowToDisk="true"/>
+	<cache name="org.hibernate.cache.internal.StandardQueryCache"
+		   maxElementsInMemory="10000"
+		   eternal="false"
+		   timeToLiveSeconds="120"
+		   overflowToDisk="true"/>
+
+	<cache name="Entity.User"
+        maxElementsInMemory="1000"
+        eternal="false"
+        overflowToDisk="true"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"/>
+
+</ehcache>

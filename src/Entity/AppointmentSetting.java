@@ -1,6 +1,7 @@
 package Entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 老师预约时间实体类
@@ -15,7 +16,8 @@ public class AppointmentSetting {
     private String duration_time;
     private int limited_people_num;
     private int ordered_people_num;
-    private Expert expert;
+    private User expert_user_id;
+    private Date setting_date;
 
     public AppointmentSetting() {
     }
@@ -26,10 +28,11 @@ public class AppointmentSetting {
         this.duration_time = duration_time;
     }
 
-    public AppointmentSetting(Long id,int limited_people_num, int ordered_people_num) {
+    public AppointmentSetting(Long id,String duration_time,int limited_people_num, int ordered_people_num) {
         this.id=id;
         this.limited_people_num = limited_people_num;
         this.ordered_people_num = ordered_people_num;
+        this.duration_time=duration_time;
     }
 
     public AppointmentSetting(String weekday, String start_time, String duration_time, int limited_people_num) {
@@ -39,7 +42,8 @@ public class AppointmentSetting {
         this.limited_people_num = limited_people_num;
     }
 
-    public AppointmentSetting(String weekday, String start_time, String duration_time, int limited_people_num, int ordered_people_num) {
+    public AppointmentSetting(Long id,String weekday, String start_time, String duration_time, int limited_people_num, int ordered_people_num) {
+        this.id=id;
         this.weekday = weekday;
         this.start_time = start_time;
         this.duration_time = duration_time;
@@ -85,13 +89,13 @@ public class AppointmentSetting {
     }
 
     @OneToOne
-    @JoinColumn(name = "expert_id",nullable = false)
-    public Expert getExpert() {
-        return expert;
+    @JoinColumn(name = "expert_user_id")
+    public User getExpert_user_id() {
+        return expert_user_id;
     }
 
-    public void setExpert(Expert expert) {
-        this.expert = expert;
+    public void setExpert_user_id(User expert_user_id) {
+        this.expert_user_id = expert_user_id;
     }
 
     @Column(name = "limited_people_num")
@@ -110,5 +114,14 @@ public class AppointmentSetting {
 
     public void setOrdered_people_num(int ordered_people_num) {
         this.ordered_people_num = ordered_people_num;
+    }
+
+    @Transient
+    public Date getSetting_date() {
+        return setting_date;
+    }
+
+    public void setSetting_date(Date setting_date) {
+        this.setting_date = setting_date;
     }
 }

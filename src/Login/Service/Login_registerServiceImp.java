@@ -1,4 +1,5 @@
 package Login.Service;
+import Entity.User;
 import Login.DAO.Login_registerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.support.SaxResourceUtils;
@@ -19,16 +20,18 @@ public class Login_registerServiceImp implements Login_registerService{
     private  Logger logger=Logger.getLogger(Login_registerServiceImp.class.getName());
 
     @Override
-    public Map<String, Object> register_data(String name, String password) {
+    public Map<String, Object> register_data(User user) {
         /**
          * 浏览器默认编码是 ISO-8859-1,转成我们需要的utf-8。
          * 把传过来的数据转成中文字符
          */
         Map<String,Object> map=new HashMap<>();
+        String password=user.getPassword();
+        String name=user.getUsername();
         try {
-            name=new String(name.getBytes("ISO-8859-1"),"utf-8");
+            //name=new String(name.getBytes("ISO-8859-1"),"utf-8");
             password=new String(password.getBytes("ISO-8859-1"),"utf-8");
-            int i = login_registerDAO.SaveUserData(name, password);
+            int i = login_registerDAO.SaveUserData(user);
             map.put("StatusCode",i);
             return map;
         } catch (UnsupportedEncodingException e) {
@@ -44,13 +47,14 @@ public class Login_registerServiceImp implements Login_registerService{
 
         Map<String,Object> map=null;
         try {
-            name=new String(name.getBytes("ISO-8859-1"),"utf-8");
+            //name=new String(name.getBytes("ISO-8859-1"),"utf-8");
             password=new String(password.getBytes("ISO-8859-1"),"utf-8");
             map=login_registerDAO.query_user_login(name,password);
             if (map.isEmpty()){
                 map.put("StatusCode",0);
                 map.put("user_id","");
                 map.put("user_token","");
+                map.put("user_type","");
             }else {
                 String token=login_registerDAO.GetUserToken((Long) map.get("user_id"));
                 if (token.equals("")){

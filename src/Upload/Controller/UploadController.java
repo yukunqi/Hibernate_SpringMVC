@@ -1,11 +1,14 @@
 package Upload.Controller;
 
 
-import Entity.BookOrderInfo;
-import Entity.ExpertsInfo;
+import Entity.*;
 import Upload.Service.ExpertInfoService;
 import Upload.Service.UploadExpertImp;
 import Upload.Service.UploadFile;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  *成功返回1，失败返回0
@@ -26,6 +30,8 @@ public class UploadController {
     private UploadExpertImp uploadExpertImp;
     @Autowired
     private ExpertInfoService expertInfoService;
+
+    private static Logger logger=Logger.getLogger(UploadController.class.getName());
 
     @ResponseBody
     @RequestMapping(value = "/uploadImage",method = RequestMethod.POST)
@@ -62,12 +68,13 @@ public class UploadController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/GET/ExpertsInfo/{Type}",method = RequestMethod.GET)
-    public Map<String,Object> getExpertsInfo(@PathVariable(value = "Type") String list_type){
+    @RequestMapping(value = "/GET/ExpertsInfo/{Type}/{user_type_id}",method = RequestMethod.GET)
+    public Map<String,Object> getExpertsInfo(@PathVariable(value = "Type") String list_type,
+                                             @PathVariable(value = "user_type_id") int user_type_id){
         System.out.println(list_type);
         Map<String,Object> map=new HashMap<>();
-        List<ExpertsInfo> list=expertInfoService.expertsInfoList(list_type);
-        if (list.isEmpty()){
+        List<ExpertsInfo> list=expertInfoService.expertsInfoList(list_type,user_type_id);
+        if (list==null){
             map.put("StatusCode",0);
         }else {
             map.put("ExpertsInfo",list);
@@ -129,18 +136,19 @@ public class UploadController {
     /**
      * 获取用户咨询预约订单数据集合
      * @param type  订单类型
-     * @param user_id 用户id
+     * @param id 用户id
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/GET/getBookOrdersInfo/{type}/{user_id}",method = RequestMethod.GET)
-    public Map<String,Object> getBookOrdersInfo(@PathVariable(value = "type")String type,@PathVariable(value = "user_id")Long user_id){
+    @RequestMapping(value = "/GET/getUserBookOrdersInfo/{type}/{id}",method = RequestMethod.GET)
+    public Map<String,Object> getBookOrdersInfo(@PathVariable(value = "type")String type,
+                                                @PathVariable(value = "id")Long id){
         Map<String,Object> map=new HashMap<>();
-        if (!type.equals("1")&&!type.equals("2")&&!type.equals("3")){
+        if ((!type.equals("1")&&!type.equals("2")&&!type.equals("3"))){
             map.put("StatusCode",2);
             return map;
         }
-        List<BookOrderInfo> bookOrderInfos = expertInfoService.bookOrderInfoList(type, user_id);
+        List<BookOrderInfo> bookOrderInfos = expertInfoService.bookOrderInfoList_User(type, id);
         if (bookOrderInfos==null){
             map.put("StatusCode",0);
         }else{
@@ -149,4 +157,280 @@ public class UploadController {
         }
         return map;
     }
+
+    /**
+     * 根据id去获取老师被预约订单集合
+     * @param type 订单类型
+     * @param id  用户id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/getExpertBookOrdersInfo/{type}/{id}",method = RequestMethod.GET)
+    public Map<String,Object> getExpertBookOrdersInfo(@PathVariable(value = "type")String type,
+                                                @PathVariable(value = "id")Long id){
+        Map<String,Object> map=new HashMap<>();
+        if ((!type.equals("1")&&!type.equals("2")&&!type.equals("3"))){
+            map.put("StatusCode",2);
+            return map;
+        }
+        List<BookOrderInfo> expertBookOrderInfos = expertInfoService.bookOrderInfoList_Expert(type, id);
+        if (expertBookOrderInfos==null){
+            map.put("StatusCode",0);
+        }else{
+            map.put("StatusCode",1);
+            map.put("jsondata",expertBookOrderInfos);
+        }
+        return map;
+    }
+
+    /**
+     * 根据设置的时间的id去删除相应的数据库数据
+     * @param deleteJson 包装id的json字符串
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/DELETE/AppointmentSetting",method = RequestMethod.POST)
+    public Map<String ,Object> deleteAppointmentSetting(String deleteJson){
+        Map<String,Object> map=new HashMap<>();
+        Gson gson=new Gson();
+        try {
+            Jsondata<Long> jsondata=gson.fromJson(deleteJson,new TypeToken<Jsondata<Long>>(){}.getType());
+            if (jsondata.getJsondata()==null){
+                map.put("StatusCode",6);
+            }else {
+                map.put("StatusCode",expertInfoService.delete_expert_AppointmentSetting(jsondata.getJsondata()));
+            }
+        }catch (JsonSyntaxException e){
+            map.put("StatusCode",5);
+        }
+        return map;
+    }
+
+    /**
+     * 更新用户个人信息 （除了头像）
+     * @param updateJson
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/UPDATE/updatePersonalInfo",method = RequestMethod.POST)
+    public Map<String,Object> updatePersonalInfo(String updateJson){
+        Gson gson=new Gson();
+        Map<String,Object> map1=new HashMap<>();
+        try {
+            Jsondata jsondata=gson.fromJson(updateJson,new TypeToken<Jsondata>(){}.getType());
+            Map map = jsondata.getMap();
+            String column_name= (String) map.get("column_name");
+            String data= (String) map.get("data");
+            int i;
+            try {
+                double num= (double) map.get("user_id");
+                if (column_name==null||data==null){
+                    i=6;
+                }else {
+                    Long user_id= Math.round(num);
+                    i=expertInfoService.updatePersonalInfo(user_id,column_name,data);
+                }
+            }catch (NullPointerException e){
+                i=6;
+            }
+            map1.put("StatusCode",i);
+        }catch (JsonSyntaxException e){
+            e.printStackTrace();
+            map1.put("StatusCode",5);
+        }
+        return map1;
+    }
+
+    /**
+     * 获取老师指定预约时间被预约咨询订单集合
+     * @param expert_id 老师id
+     * @param appointment_id 预约时间id
+     * @param type 集合类型
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/expertBookOrders/{type}/{expert_id}/{appointment_id}",method = RequestMethod.GET)
+    public Map<String,Object> getExpert_BookOrders(@PathVariable(value = "expert_id") Long expert_id,
+                                                   @PathVariable(value = "appointment_id") Long appointment_id,
+                                                   @PathVariable(value = "type") String type){
+
+        return expertInfoService.getExpert_BookOrders(expert_id,appointment_id,type);
+    }
+
+    /**
+     * 更新用户头像
+     * @param request 文件流
+     * @param updateJson 用户JSON数据
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/UPDATE/userProfile",method = RequestMethod.POST)
+    public Map<String,Object> updateUserProfile(HttpServletRequest request,String updateJson){
+        int i = uploadExpertImp.updateUserProfile(request, updateJson);
+        Map<String,Object> map=new HashMap<>();
+        map.put("StatusCode",i);
+        return map;
+    }
+
+    /**
+     * 取消未开始订单
+     * @param deleteJson json数据
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/DELETE/BookOrder",method = RequestMethod.POST)
+    public Map<String,Object> deleteBookOrder(String deleteJson){
+        Gson gson=new Gson();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            Jsondata<Long> jsondata=gson.fromJson(deleteJson,new TypeToken<Jsondata<Long>>(){}.getType());
+            int i = expertInfoService.deleteBookOrder(jsondata.getJsondata());
+            map.put("StatusCode",i);
+        }catch (JsonSyntaxException e){
+            logger.info("取消订单Json数据解析失败.....");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("取消订单Json数据实体不存在或者其他错误.....");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/GET/UserPersonalPage/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getUserPersonalPage(@PathVariable(value = "user_id") Long user_id){
+        Map<String,Object> map=new HashMap<>();
+        UserPersonalPage userPersonalPage = expertInfoService.getUserPersonalPage(user_id);
+        if (userPersonalPage!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",userPersonalPage);
+        }else{
+            map.put("StatusCode",0);
+            map.put("jsondata","");
+        }
+        return map;
+    }
+
+    /**
+     * 根据用户id去获取相应的待评价信息列表
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/CommentBookordersEntityList/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getCommentBookordersEntityList(@PathVariable(value = "user_id") Long user_id){
+        Map<String,Object> map=new HashMap<>();
+        List<CommentBookorderEntity> list = expertInfoService.getCommentBookordersEntityList(user_id);
+        if (list!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",list);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 根据用户id去获取相应的已评价信息列表
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/CommentedBookordersEntityList/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getCommentedBookordersEntityList(@PathVariable(value = "user_id") Long user_id){
+        Map<String,Object> map=new HashMap<>();
+        List<CommentedBookorderEntity> list = expertInfoService.getCommentedBookordersEntityList(user_id);
+        if (list!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",list);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 上传用户的咨询评价数据
+     * @param userCommentJson
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/POST/userComment",method = RequestMethod.POST)
+    public Map<String,Object> uploadUserComment(String userCommentJson){
+        Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            UserComment comment=gson.fromJson(userCommentJson,UserComment.class);
+            int i=uploadExpertImp.uploadUserComment(comment);
+            map.put("StatusCode",i);
+        }catch (JsonSyntaxException e){
+            logger.info("咨询评价Json数据解析失败.....");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("咨询评价Json数据实体不存在或者其他错误.....");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    /**
+     * 根据用户Id去获取相应的老师个人被评价列表
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/UserCommentInfoList/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getUserCommentInfoList(@PathVariable(value = "user_id") long user_id){
+        Map<String,Object> map = expertInfoService.getUserCommentInfoList(user_id);
+        if (map!=null){
+            map.put("StatusCode",1);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 根据老师id和类型id去查询咨询过的学生列表(老师端)
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/UsersInfoList/{type_id}/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getUsersInfoList(@PathVariable(value = "user_id") long user_id,
+                                               @PathVariable(value = "type_id") long type_id){
+        Map<String,Object> map=new HashMap<>();
+        List<UsersInfo> usersInfoList = expertInfoService.getUsersInfoList(user_id,type_id);
+        if (usersInfoList!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",usersInfoList);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+    /**
+     * 获取老师端学生的个人页面信息(在列表点击进去之后)
+     * 老师端
+     * @param user_id 用户id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/UserPageInfo/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getUserPageInfo(@PathVariable(value = "user_id") long user_id){
+        Map<String,Object> map=new HashMap<>();
+        UserPersonalPage userPageInfo = expertInfoService.getUserPageInfo(user_id);
+        if (userPageInfo!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",userPageInfo);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
 }

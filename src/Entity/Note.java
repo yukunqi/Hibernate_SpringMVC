@@ -10,14 +10,24 @@ import java.util.Date;
 @Table(name = "note",schema = "xinli")
 public class Note {
 
+    //帖子id
     private Long note_id;
+    //发布帖子用户id
     private User user;
+    //帖子内容
     private String note_content;
+    //帖子创建时间
     private Date note_buildtime;
+    //帖子评论数
     private int note_reply_num;
+    //帖子标题
     private String note_title;
+    //帖子是否匿名
     private int note_anonymous;
+    //帖子点赞数
     private int note_good_num;
+    //帖子浏览数
+    private int watched_num;
 
     public Note() {
     }
@@ -94,5 +104,14 @@ public class Note {
 
     public void setNote_good_num(int note_good_num) {
         this.note_good_num = note_good_num;
+    }
+
+    @Column(name = "comment_watched_num",columnDefinition = "INT default 0")
+    public int getWatched_num() {
+        return watched_num;
+    }
+
+    public void setWatched_num(int watched_num) {
+        this.watched_num = watched_num;
     }
 }

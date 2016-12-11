@@ -17,7 +17,7 @@ public class Expert_comment_item {
     //评论时间
     private String comment_time;
     //好坏程度
-    private int level;
+    private String level;
     //用户id
     private Long user_id;
 
@@ -28,7 +28,11 @@ public class Expert_comment_item {
     public Expert_comment_item() {
     }
 
-    public Expert_comment_item(String author_name, String comment_content, String profile, Date comment_time, int level) {
+    public Expert_comment_item(String author_name) {
+        this.author_name = author_name;
+    }
+
+    public Expert_comment_item(String author_name, String comment_content, String profile, Date comment_time, String level) {
 
         this.author_name = author_name;
         this.comment_content = comment_content;
@@ -37,7 +41,7 @@ public class Expert_comment_item {
         this.level = level;
     }
 
-    public Expert_comment_item(String author_name, String comment_content, String profile, Date comment_time, int level, Long user_id) {
+    public Expert_comment_item(String author_name, String comment_content, String profile, Date comment_time, String level, Long user_id) {
         this.author_name = author_name;
         this.comment_content = comment_content;
         this.profile = profile;
@@ -78,11 +82,19 @@ public class Expert_comment_item {
         this.comment_time = comment_time;
     }
 
-    public int getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level = level;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }

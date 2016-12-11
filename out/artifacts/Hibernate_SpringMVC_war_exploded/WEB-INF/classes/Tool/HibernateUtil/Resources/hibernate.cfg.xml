@@ -6,6 +6,15 @@
     <session-factory>
         <!-- DB schema will be updated if needed -->
         <!--<property name="hbm2ddl.auto">update</property>-->
+        <!-- 启用二级缓存-->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <!-- 启用二级缓存ehcache插件-->
+       <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <!-- 打开查询缓存-->
+        <property name="hibernate.cache.use_query_cache">true</property>
+
+        <property name="hibernate.cache.provider_configuration_file_resource_path">ehcache-setting.xml</property>
+
         <property name="hibernate.connection.provider_class">org.hibernate.proxool.internal.ProxoolConnectionProvider</property>
         <property name="hibernate.proxool.pool_alias">DBPool</property>
         <property name="hibernate.proxool.xml">proxool.xml</property>
@@ -16,14 +25,16 @@
         <property name="hibernate.connection.password">yukunqi123</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
+
         <mapping class="Entity.User"/>
-        <mapping class="Entity.Note"/>
-        <mapping class="Entity.Note_Comment"/>
-        <mapping class="Entity.Expert_comment"/>
         <mapping class="Entity.Expert"/>
+        <mapping class="Entity.AppointmentSetting"/>
         <mapping class="Entity.Article"/>
+        <mapping class="Entity.Article_Comment"/>
         <mapping class="Entity.BookOrders"/>
         <mapping class="Entity.UserToken"/>
-        <mapping class="Entity.AppointmentSetting"/>
+        <mapping class="Entity.UserType"/>
+        <mapping class="Entity.UserComment"/>
+        <mapping class="Entity.Level_type"/>
     </session-factory>
 </hibernate-configuration>

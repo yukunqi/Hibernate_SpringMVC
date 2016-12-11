@@ -18,6 +18,7 @@
           <element id="library" level="project" name="proxool-0.9.1" />
           <element id="library" level="project" name="hibernate-proxool-4.3.9.Final" />
           <element id="library" level="project" name="proxool-cglib" />
+          <element id="library" level="project" name="ehcache" />
         </element>
       </element>
     </root>

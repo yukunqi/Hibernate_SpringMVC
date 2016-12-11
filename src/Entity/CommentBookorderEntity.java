@@ -1,11 +1,13 @@
 package Entity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
- * 评价的咨询订单实体类
+ * 待评价的咨询订单实体类
  */
-public class CommentBookorderEntity {
+public class CommentBookorderEntity implements Serializable {
     //名字
     private String name;
     //头像
@@ -18,28 +20,38 @@ public class CommentBookorderEntity {
     private String book_time;
     //咨询时长
     private String duration_time;
+    //咨询订单id
+    private Long book_id;
     //被评价用户的id
     private Long user_id;
     //好评率
     private double good_comment;
     //咨询人数
     private int cousult_number;
+    //点评id
+    private Long comment_id;
+    //聊天的姓名
+    private String main_chat_name;
+    //对方的聊天的姓名
+    private String sub_chat_name;
 
     private static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-HH-dd HH:mm:ss");
 
-    public UncommentBookorderEntity() {
+    public CommentBookorderEntity() {
     }
 
-    public UncommentBookorderEntity(String name, String profile, String user_type, String college, String book_time, String duration_time, Long user_id, double good_comment, int cousult_number) {
+    public CommentBookorderEntity(String name, String profile, String user_type, String college, Date book_time, String duration_time, Long user_id, double good_comment, int cousult_number, Long comment_id, String main_chat_name) {
         this.name = name;
         this.profile = profile;
         this.user_type = user_type;
         this.college = college;
-        this.book_time = book_time;
+        this.book_time = simpleDateFormat.format(book_time);
         this.duration_time = duration_time;
         this.user_id = user_id;
         this.good_comment = good_comment;
         this.cousult_number = cousult_number;
+        this.comment_id = comment_id;
+        this.main_chat_name = main_chat_name;
     }
 
     public String getName() {
@@ -112,5 +124,37 @@ public class CommentBookorderEntity {
 
     public void setCousult_number(int cousult_number) {
         this.cousult_number = cousult_number;
+    }
+
+    public Long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getSub_chat_name() {
+        return sub_chat_name;
+    }
+
+    public void setSub_chat_name(String sub_chat_name) {
+        this.sub_chat_name = sub_chat_name;
+    }
+
+    public String getMain_chat_name() {
+        return main_chat_name;
+    }
+
+    public void setMain_chat_name(String main_chat_name) {
+        this.main_chat_name = main_chat_name;
+    }
+
+    public Long getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(Long book_id) {
+        this.book_id = book_id;
     }
 }

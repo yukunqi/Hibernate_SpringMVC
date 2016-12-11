@@ -16,6 +16,10 @@
     json数据:<input type="text" name="settingJson"><br>
     <input type="submit" value="提交">
 </form>
-
+<h1>老师时间删除接口测试</h1>
+<form action="upload/DELETE/AppointmentSetting" method="post">
+    appointment_id:<input type="text" name="deleteJson"><br>
+    <input type="submit" value="提交">
+</form>
 </body>
 </html>

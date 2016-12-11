@@ -1,6 +1,7 @@
 package Entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 问答帖子评论类
@@ -13,12 +14,17 @@ public class Note_Comment {
     private Long note_comment_id;
     //帖子Id
     private Note note;
+    //帖子评论时间
+    private Date comment_date;
     //帖子评论内容
     private String note_comment_content;
     //帖子评论者id
     private User note_comment_user;
-    //帖子被评论者id
-    private User note_commented_user;
+    //帖子评论点赞数
+    private int comment_good_num;
+    //评论下的二次评论数
+    private int second_comment_num;
+
 
     public Note_Comment() {
     }
@@ -62,13 +68,31 @@ public class Note_Comment {
         this.note_comment_user = note_comment_user;
     }
 
-    @OneToOne
-    @JoinColumn(name = "note_commented_user_id")
-    public User getNote_commented_user() {
-        return note_commented_user;
+
+    @Column(name = "comment_date")
+    public Date getComment_date() {
+        return comment_date;
     }
 
-    public void setNote_commented_user(User note_commented_user) {
-        this.note_commented_user = note_commented_user;
+    public void setComment_date(Date comment_date) {
+        this.comment_date = comment_date;
     }
+
+    @Column(name = "comment_good_num",columnDefinition = "INT default 0")
+    public int getComment_good_num() {
+        return comment_good_num;
+    }
+
+    public void setComment_good_num(int comment_good_num) {
+        this.comment_good_num = comment_good_num;
+    }
+    @Column(name = "second_comment_num",columnDefinition = "INT default 0")
+    public int getSecond_comment_num() {
+        return second_comment_num;
+    }
+
+    public void setSecond_comment_num(int second_comment_num) {
+        this.second_comment_num = second_comment_num;
+    }
+
 }

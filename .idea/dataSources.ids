@@ -8,527 +8,520 @@
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
       <schema id="1" name="xinli"/>
-      <table id="2" parent="1" name="article"/>
-      <table id="3" parent="1" name="article_comment"/>
-      <table id="4" parent="1" name="bookorders"/>
-      <table id="5" parent="1" name="expert"/>
-      <table id="6" parent="1" name="expert_comment"/>
-      <table id="7" parent="1" name="note"/>
-      <table id="8" parent="1" name="note_comment"/>
-      <table id="9" parent="1" name="ofproperty"/>
-      <table id="10" parent="1" name="user"/>
-      <table id="11" parent="1" name="usertoken"/>
-      <table id="12" parent="1" name="appointment"/>
-      <column id="13" parent="2" name="article_id">
+      <table id="2" parent="1" name="appointment"/>
+      <table id="3" parent="1" name="article"/>
+      <table id="4" parent="1" name="article_comment"/>
+      <table id="5" parent="1" name="bookorders"/>
+      <table id="6" parent="1" name="expert"/>
+      <table id="7" parent="1" name="level_type"/>
+      <table id="8" parent="1" name="of_chatlogs"/>
+      <table id="9" parent="1" name="user"/>
+      <table id="10" parent="1" name="user_comment"/>
+      <table id="11" parent="1" name="user_type"/>
+      <table id="12" parent="1" name="usertoken"/>
+      <column id="13" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="14" parent="2" name="article_content">
-        <mandatory>1</mandatory>
-        <data-type>text</data-type>
-      </column>
-      <column id="15" parent="2" name="article_picture">
-        <mandatory>1</mandatory>
+      <column id="14" parent="2" name="duration_time">
         <data-type>varchar(255)</data-type>
-        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="16" parent="2" name="article_title">
+      <column id="15" parent="2" name="limited_people_num">
         <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;1&apos;</default-expression>
+      </column>
+      <column id="16" parent="2" name="ordered_people_num">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="17" parent="2" name="start_time">
         <data-type>varchar(255)</data-type>
-        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="17" parent="2" name="build_date">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      <column id="18" parent="2" name="weekday">
+        <data-type>varchar(255)</data-type>
       </column>
-      <column id="18" parent="2" name="comment_num">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="19" parent="2" name="good_num">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="20" parent="2" name="watched_num">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="21" parent="2" name="user_id">
+      <column id="19" parent="2" name="expert_user_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
-        <default-expression>&apos;-1&apos;</default-expression>
       </column>
-      <index id="22" parent="2" name="FK_tcgc5bv7iarylc19wy17n3r6c">
+      <index id="20" parent="2" name="expert_id">
+        <columns>expert_user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="21" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="22" parent="2" name="appointment_ibfk_1">
+        <columns>expert_user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="23" parent="3" name="article_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="24" parent="3" name="article_content">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="25" parent="3" name="article_picture">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="26" parent="3" name="article_title">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="27" parent="3" name="build_date">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="28" parent="3" name="comment_num">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="29" parent="3" name="good_num">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="30" parent="3" name="watched_num">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="31" parent="3" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="32" parent="3" name="FK_tcgc5bv7iarylc19wy17n3r6c">
         <columns>user_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="23" parent="2" name="PRIMARY">
+      <key id="33" parent="3" name="PRIMARY">
         <columns>article_id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="24" parent="2" name="FK_tcgc5bv7iarylc19wy17n3r6c">
+      <foreign-key id="34" parent="3" name="FK_tcgc5bv7iarylc19wy17n3r6c">
         <columns>user_id</columns>
         <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="25" parent="3" name="article_comment_id">
+      <column id="35" parent="4" name="article_comment_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="26" parent="3" name="article_comment_content">
+      <column id="36" parent="4" name="article_comment_content">
         <mandatory>1</mandatory>
-        <data-type>text</data-type>
+        <data-type>varchar(255)</data-type>
       </column>
-      <column id="27" parent="3" name="article_id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="28" parent="3" name="commentUser_id">
+      <column id="37" parent="4" name="article_id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="29" parent="3" name="commentedUser_id">
+      <column id="38" parent="4" name="commentUser_id">
+        <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="30" parent="3" name="FK_a8f9h787093lg4av2fi2nl7tw">
+      <column id="39" parent="4" name="commentedUser_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="40" parent="4" name="FK_a8f9h787093lg4av2fi2nl7tw">
         <columns>article_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="31" parent="3" name="FK_b7i6wg82xytquo3g7l09lsnd2">
+      <index id="41" parent="4" name="FK_b7i6wg82xytquo3g7l09lsnd2">
         <columns>commentedUser_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="32" parent="3" name="FK_ob8aot6m7auhgmwpvvqxnqf2i">
+      <index id="42" parent="4" name="FK_ob8aot6m7auhgmwpvvqxnqf2i">
         <columns>commentUser_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="33" parent="3" name="PRIMARY">
+      <key id="43" parent="4" name="PRIMARY">
         <columns>article_comment_id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="34" parent="3" name="FK_a8f9h787093lg4av2fi2nl7tw">
+      <foreign-key id="44" parent="4" name="FK_a8f9h787093lg4av2fi2nl7tw">
         <columns>article_id</columns>
         <ref-key>~.article.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="35" parent="3" name="FK_b7i6wg82xytquo3g7l09lsnd2">
+      <foreign-key id="45" parent="4" name="FK_b7i6wg82xytquo3g7l09lsnd2">
         <columns>commentedUser_id</columns>
         <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="36" parent="3" name="FK_ob8aot6m7auhgmwpvvqxnqf2i">
+      <foreign-key id="46" parent="4" name="FK_ob8aot6m7auhgmwpvvqxnqf2i">
         <columns>commentUser_id</columns>
         <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="37" parent="4" name="id">
+      <column id="47" parent="5" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="38" parent="4" name="age">
+      <column id="48" parent="5" name="book_time">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
       </column>
-      <column id="39" parent="4" name="book_time">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-      </column>
-      <column id="40" parent="4" name="description">
-        <mandatory>1</mandatory>
+      <column id="49" parent="5" name="description">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="41" parent="4" name="gender">
-        <mandatory>1</mandatory>
+      <column id="50" parent="5" name="duration_time">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="42" parent="4" name="people_call">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="43" parent="4" name="phonenumber">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="44" parent="4" name="duration_time">
-        <mandatory>1</mandatory>
-        <data-type>varchar(200)</data-type>
-        <default-expression>&apos;&apos;</default-expression>
-      </column>
-      <column id="45" parent="4" name="expert_id">
+      <column id="51" parent="5" name="appointment_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="46" parent="4" name="user_id">
+      <column id="52" parent="5" name="expert_user_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="47" parent="4" name="FK_jj575r85g4p5fqrliwobsb6lk">
+      <column id="53" parent="5" name="user_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="54" parent="5" name="comment_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <index id="55" parent="5" name="appointment_id">
+        <columns>appointment_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="56" parent="5" name="expert_user_id">
+        <columns>expert_user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="57" parent="5" name="user_id">
         <columns>user_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="48" parent="4" name="FK_jxx3j2q5eb04o4g4gj9tq5dh8">
-        <columns>expert_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <key id="49" parent="4" name="PRIMARY">
+      <key id="58" parent="5" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="50" parent="4" name="FK_jj575r85g4p5fqrliwobsb6lk">
+      <foreign-key id="59" parent="5" name="bookorders_ibfk_1">
+        <columns>appointment_id</columns>
+        <ref-key>~.appointment.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="60" parent="5" name="bookorders_ibfk_2">
+        <columns>expert_user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="61" parent="5" name="bookorders_ibfk_3">
         <columns>user_id</columns>
         <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="51" parent="4" name="FK_jxx3j2q5eb04o4g4gj9tq5dh8">
-        <columns>expert_id</columns>
-        <ref-key>~.expert.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <column id="52" parent="5" name="id">
+      <column id="62" parent="6" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="53" parent="5" name="background">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="54" parent="5" name="consult_number">
+      <column id="63" parent="6" name="consult_number">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="55" parent="5" name="motto">
+      <column id="64" parent="6" name="excellent_rate">
+        <mandatory>1</mandatory>
+        <data-type>varchar(10)</data-type>
+        <default-expression>&apos;0%&apos;</default-expression>
+      </column>
+      <column id="65" parent="6" name="motto">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="56" parent="5" name="others">
+      <column id="66" parent="6" name="page_picture">
+        <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="57" parent="5" name="page_picture">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="58" parent="5" name="qualifications">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="59" parent="5" name="strongPoint">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="60" parent="5" name="user_id">
+      <column id="67" parent="6" name="user_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="61" parent="5" name="UK_tp5k3xo4s34soe783vu4ha79s">
+      <index id="68" parent="6" name="UK_tp5k3xo4s34soe783vu4ha79s">
         <columns>user_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="62" parent="5" name="PRIMARY">
+      <key id="69" parent="6" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="63" parent="5" name="UK_tp5k3xo4s34soe783vu4ha79s">
+      <key id="70" parent="6" name="UK_tp5k3xo4s34soe783vu4ha79s">
         <columns>user_id</columns>
         <underlying-index>UK_tp5k3xo4s34soe783vu4ha79s</underlying-index>
       </key>
-      <foreign-key id="64" parent="5" name="FK_tp5k3xo4s34soe783vu4ha79s">
+      <foreign-key id="71" parent="6" name="FK_tp5k3xo4s34soe783vu4ha79s">
         <columns>user_id</columns>
         <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="65" parent="6" name="id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-        <sequence-identity>1</sequence-identity>
-      </column>
-      <column id="66" parent="6" name="comment">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="67" parent="6" name="comment_time">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-      </column>
-      <column id="68" parent="6" name="level">
+      <column id="72" parent="7" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
       </column>
-      <column id="69" parent="6" name="expert_id">
-        <data-type>bigint(20)</data-type>
+      <column id="73" parent="7" name="level_type_name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="70" parent="6" name="user_id">
-        <data-type>bigint(20)</data-type>
-      </column>
-      <index id="71" parent="6" name="FK_gt2lo2sfvuae05eosvgsc9xir">
-        <columns>user_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="72" parent="6" name="FK_kp70i3t90y8v1nk9rokf83pp1">
-        <columns>expert_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <key id="73" parent="6" name="PRIMARY">
+      <key id="74" parent="7" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="74" parent="6" name="FK_gt2lo2sfvuae05eosvgsc9xir">
-        <columns>user_id</columns>
-        <ref-key>~.user.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <foreign-key id="75" parent="6" name="FK_kp70i3t90y8v1nk9rokf83pp1">
-        <columns>expert_id</columns>
-        <ref-key>~.expert.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <column id="76" parent="7" name="note_id">
+      <column id="75" parent="8" name="message_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="76" parent="8" name="session_jid">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="77" parent="8" name="sender">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="78" parent="8" name="receiver">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="79" parent="8" name="createDate">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="80" parent="8" name="length">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="81" parent="8" name="content">
+        <data-type>varchar(2000)</data-type>
+      </column>
+      <column id="82" parent="8" name="detail">
+        <data-type>varchar(4000)</data-type>
+      </column>
+      <column id="83" parent="8" name="state">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="84" parent="8" name="PRIMARY">
+        <columns>message_id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="85" parent="9" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="77" parent="7" name="note_anonymous">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="78" parent="7" name="note_buildtime">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-      </column>
-      <column id="79" parent="7" name="note_content">
+      <column id="86" parent="9" name="college">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
+        <default-expression>&apos;计算机与软件学院&apos;</default-expression>
       </column>
-      <column id="80" parent="7" name="note_good_num">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="81" parent="7" name="note_reply_num">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="82" parent="7" name="note_title">
+      <column id="87" parent="9" name="gender">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="83" parent="7" name="user_id">
+      <column id="88" parent="9" name="grade">
         <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
+        <data-type>varchar(10)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
       </column>
-      <index id="84" parent="7" name="FK_7strs0d8haoaf5fswi40yh5j7">
-        <columns>user_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <key id="85" parent="7" name="PRIMARY">
-        <columns>note_id</columns>
-        <primary>1</primary>
-      </key>
-      <foreign-key id="86" parent="7" name="FK_7strs0d8haoaf5fswi40yh5j7">
-        <columns>user_id</columns>
-        <ref-key>~.user.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <column id="87" parent="8" name="note_comment_id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-        <sequence-identity>1</sequence-identity>
-      </column>
-      <column id="88" parent="8" name="note_comment_content">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="89" parent="8" name="note_id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="90" parent="8" name="note_comment_user_id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="91" parent="8" name="note_commented_user_id">
-        <data-type>bigint(20)</data-type>
-      </column>
-      <index id="92" parent="8" name="FK_68lvbht50ejm81bejb1d7wp7o">
-        <columns>note_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="93" parent="8" name="FK_n7botmjw6xpbu2x6eqmbr2j2a">
-        <columns>note_commented_user_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="94" parent="8" name="FK_ry2g58l65r95dk9386evlpbtk">
-        <columns>note_comment_user_id</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <key id="95" parent="8" name="PRIMARY">
-        <columns>note_comment_id</columns>
-        <primary>1</primary>
-      </key>
-      <foreign-key id="96" parent="8" name="FK_68lvbht50ejm81bejb1d7wp7o">
-        <columns>note_id</columns>
-        <ref-key>~.note.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <foreign-key id="97" parent="8" name="FK_n7botmjw6xpbu2x6eqmbr2j2a">
-        <columns>note_commented_user_id</columns>
-        <ref-key>~.user.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <foreign-key id="98" parent="8" name="FK_ry2g58l65r95dk9386evlpbtk">
-        <columns>note_comment_user_id</columns>
-        <ref-key>~.user.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <column id="99" parent="9" name="name">
-        <mandatory>1</mandatory>
-        <data-type>varchar(100)</data-type>
-      </column>
-      <column id="100" parent="9" name="propValue">
-        <mandatory>1</mandatory>
+      <column id="89" parent="9" name="introduction">
         <data-type>text</data-type>
       </column>
-      <key id="101" parent="9" name="PRIMARY">
-        <columns>name</columns>
-        <primary>1</primary>
-      </key>
-      <column id="102" parent="10" name="id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-        <sequence-identity>1</sequence-identity>
-      </column>
-      <column id="103" parent="10" name="college">
+      <column id="90" parent="9" name="login_name">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="104" parent="10" name="gender">
+      <column id="91" parent="9" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="92" parent="9" name="profile">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="105" parent="10" name="introduction">
-        <data-type>text</data-type>
-      </column>
-      <column id="106" parent="10" name="login_name">
+      <column id="93" parent="9" name="school_name">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="107" parent="10" name="password">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="108" parent="10" name="profile">
+      <column id="94" parent="9" name="username">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="109" parent="10" name="school_name">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-        <default-expression>&apos;&apos;</default-expression>
-      </column>
-      <column id="110" parent="10" name="username">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-        <default-expression>&apos;&apos;</default-expression>
-      </column>
-      <column id="111" parent="10" name="email">
+      <column id="95" parent="9" name="email">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="112" parent="10" name="phone_number">
+      <column id="96" parent="9" name="phone_number">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <index id="113" parent="10" name="login_name">
+      <column id="97" parent="9" name="wechat">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="98" parent="9" name="user_type">
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="99" parent="9" name="authority">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;1&apos;</default-expression>
+      </column>
+      <index id="100" parent="9" name="login_name">
         <columns>login_name</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="114" parent="10" name="login_name">
+      <index id="101" parent="9" name="user_type">
+        <columns>user_type</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="102" parent="9" name="login_name">
         <columns>login_name</columns>
         <underlying-index>login_name</underlying-index>
       </key>
-      <key id="115" parent="10" name="PRIMARY">
+      <key id="103" parent="9" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="116" parent="11" name="user_token">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="117" parent="11" name="user_id">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <key id="118" parent="11" name="PRIMARY">
-        <columns>user_id</columns>
-        <primary>1</primary>
-      </key>
-      <foreign-key id="119" parent="11" name="FK_rdxmax9qc68yov0ccbggqgq8t">
-        <columns>user_id</columns>
-        <ref-key>~.user.PRIMARY</ref-key>
+      <foreign-key id="104" parent="9" name="user_ibfk_1">
+        <columns>user_type</columns>
+        <ref-key>~.user_type.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="120" parent="12" name="id">
+      <foreign-key id="105" parent="9" name="user_ibfk_2">
+        <columns>user_type</columns>
+        <ref-key>~.user_type.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="106" parent="10" name="id">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="121" parent="12" name="duration_time">
-        <data-type>varchar(255)</data-type>
+      <column id="107" parent="10" name="comment_date">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+        <default-expression>&apos;CURRENT_TIMESTAMP&apos;</default-expression>
       </column>
-      <column id="122" parent="12" name="start_time">
-        <data-type>varchar(255)</data-type>
+      <column id="108" parent="10" name="level">
+        <data-type>int(20)</data-type>
       </column>
-      <column id="123" parent="12" name="weekday">
-        <data-type>varchar(255)</data-type>
+      <column id="109" parent="10" name="comment">
+        <data-type>text</data-type>
       </column>
-      <column id="124" parent="12" name="limited_people_num">
-        <data-type>int(11)</data-type>
-        <default-expression>&apos;0&apos;</default-expression>
-      </column>
-      <column id="125" parent="12" name="ordered_people_num">
+      <column id="110" parent="10" name="anonymous">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="126" parent="12" name="expert_id">
-        <mandatory>1</mandatory>
+      <column id="111" parent="10" name="main_user_id">
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="127" parent="12" name="FK_apcvgt52wnkwsqa11gdsife4j">
-        <columns>expert_id</columns>
+      <column id="112" parent="10" name="sub_user_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="113" parent="10" name="book_id">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="114" parent="10" name="book_id">
+        <columns>book_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="128" parent="12" name="PRIMARY">
+      <index id="115" parent="10" name="level">
+        <columns>level</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="116" parent="10" name="main_user_id">
+        <columns>main_user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="117" parent="10" name="sub_user_id">
+        <columns>sub_user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="118" parent="10" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="129" parent="12" name="FK_apcvgt52wnkwsqa11gdsife4j">
-        <columns>expert_id</columns>
-        <ref-key>~.expert.PRIMARY</ref-key>
+      <foreign-key id="119" parent="10" name="user_comment_ibfk_1">
+        <columns>main_user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="120" parent="10" name="user_comment_ibfk_2">
+        <columns>sub_user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="121" parent="10" name="user_comment_ibfk_3">
+        <columns>level</columns>
+        <ref-key>~.level_type.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="122" parent="10" name="user_comment_ibfk_4">
+        <columns>book_id</columns>
+        <ref-key>~.bookorders.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="123" parent="11" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="124" parent="11" name="type_name">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <key id="125" parent="11" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="126" parent="12" name="user_token">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="127" parent="12" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <key id="128" parent="12" name="PRIMARY">
+        <columns>user_id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="129" parent="12" name="FK_rdxmax9qc68yov0ccbggqgq8t">
+        <columns>user_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>

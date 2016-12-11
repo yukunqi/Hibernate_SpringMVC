@@ -1,4 +1,5 @@
 package Upload.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +23,13 @@ public class UploadFileImp implements UploadFile{
     private String RPE_URL="http://119.29.199.192:8080";
     //private String RPE_URL="http://localhost:8080";
     private Logger logger=Logger.getLogger(UploadFileImp.class.getName());
-
-
+/*
+    //图片浏览地址的url前缀
+    @Value("${imageUrl}")
+    private String RPE_URL;
+    //图片存放的物理地址
+    @Value("${image_location}")
+*/
     public String Upload(HttpServletRequest request){
         CommonsMultipartResolver resolver=new CommonsMultipartResolver(request.getSession().getServletContext());
         if (resolver.isMultipart(request)){
