@@ -2,10 +2,9 @@ package Upload.DAO;
 
 import Entity.*;
 import Tool.HibernateUtil.java.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import org.hibernate.*;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +24,7 @@ import java.util.logging.Logger;
 public class ExpertDAO {
 
     private Logger logger=Logger.getLogger(ExpertDAO.class.getName());
-
+    private static SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss EEE");
     /**
      * 存储老师数据
      * @param expert 老师实体类
@@ -35,25 +34,8 @@ public class ExpertDAO {
         Session session= HibernateUtil.getSession();
         Transaction tx=HibernateUtil.getTransaction();
         try {
-            String sql="select new User(u1.id) from User u1 where u1.id=:user_id ";
-            Query query = session.createQuery(sql);
-            query.setLong("user_id",expert.getUser_id());
-            User user = (User) query.uniqueResult();
-            if (user==null){
-                logger.info("id为"+expert.getUser_id()+"的用户不存在，申请成为老师失败......");
-                return 3;
-            }
-            String sql1="update User u set u.email =:email ,u.phone_number=:phone_number,u.gender=:gender,u.username=:username,u.authority=:authority where u.id=:user_id";
-            Query query1 = session.createQuery(sql1);
-            query1.setString("email",expert.getUser().getEmail());
-            query1.setString("username",expert.getUser().getUsername());
-            query1.setString("gender",expert.getUser().getGender());
-            query1.setString("phone_number",expert.getUser().getPhone_number());
-            query1.setLong("user_id",expert.getUser_id());
-            query1.setInteger("authority",2);
-            query1.executeUpdate();
-            expert.setUser(user);
-            session.save(expert);
+            session.saveOrUpdate(expert.getUser());
+            session.saveOrUpdate(expert);
             tx.commit();
             return 1;
         }catch (HibernateException e){
@@ -112,7 +94,6 @@ public class ExpertDAO {
                         return 2;//相同用户在相同老师同一时间段预约多次
                     }
                 bookOrders.setDuration_time(a.getDuration_time());
-                bookOrders.setAppointmentSetting(a);
                 session.save(bookOrders);
                 String sql3="update AppointmentSetting a set a.ordered_people_num=:order_people_num where a.id=:id";
                 Query query1 = session.createQuery(sql3);
@@ -197,7 +178,36 @@ public class ExpertDAO {
             return 1;
         }catch (HibernateException e){
             e.printStackTrace();
-            logger.info("更新用户头像失败....");
+            logger.info("更新用户id为  "+user_id+"  的头像失败....");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 更新老师封面图片
+     * @param imageUrl
+     * @param user_id
+     * @return
+     */
+    public int UpdateExpertPagePicture(String imageUrl,long user_id){
+        Session session= HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="update Expert e set e.page_picture=:expert_page_picture where e.user.id=:user_id";
+            Query query = session.createQuery(sql);
+            query.setLong("user_id",user_id);
+            query.setString("expert_page_picture",imageUrl);
+            query.executeUpdate();
+            tx.commit();
+            return 1;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            logger.info("更新老师id为  "+user_id+"  的封面图片失败....");
             if (tx!=null){
                 tx.rollback();
             }
@@ -241,8 +251,33 @@ public class ExpertDAO {
         Transaction tx=HibernateUtil.getTransaction();
         try {
             session.save(userComment);
+
+            String sql1="select user_type from user where id=:user_id";
+            SQLQuery sqlQuery1 = session.createSQLQuery(sql1);
+            sqlQuery1.setLong("user_id",userComment.getMain_user_id().getId());
+            Object o = sqlQuery1.uniqueResult();
+            String type=String.valueOf(o);
+
+            if ("1".equals(type)){//学生
+                String sql="UPDATE bookorders SET book_user_status=2 WHERE id=:book_id";
+                SQLQuery sqlQuery = session.createSQLQuery(sql);
+                sqlQuery.setLong("book_id",userComment.getBook_id().getId());
+                sqlQuery.executeUpdate();
+            }else if ("2".equals(type)){//老师
+                String sql="UPDATE bookorders SET book_expert_status=2 WHERE id=:book_id";
+                SQLQuery sqlQuery = session.createSQLQuery(sql);
+                sqlQuery.setLong("book_id",userComment.getBook_id().getId());
+                sqlQuery.executeUpdate();
+            }
             tx.commit();
             return 1;
+        }catch (ConstraintViolationException e){
+            e.printStackTrace();
+            logger.info("咨询订单id为  "+userComment.getBook_id()+" 的咨询评价记录重复插入 插入失败...");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 2;
         }catch (HibernateException e){
             e.printStackTrace();
             logger.info("咨询订单id为  "+userComment.getBook_id()+" 的咨询评价记录插入失败...");
@@ -250,7 +285,101 @@ public class ExpertDAO {
                 tx.rollback();
             }
             return 0;
-        }finally {
+        }catch (Exception e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }
+        finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 根据咨询id插入相应的老师的点评信息数据
+     * @param userComment
+     * @return
+     */
+    public int uploadExpertComment(UserComment userComment){
+        Session session= HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            session.save(userComment);
+
+            String sql="UPDATE bookorders SET book_expert_status=2 WHERE id=:book_id";
+            SQLQuery sqlQuery = session.createSQLQuery(sql);
+            sqlQuery.setLong("book_id",userComment.getBook_id().getId());
+            sqlQuery.executeUpdate();
+
+            tx.commit();
+            return 1;
+        }catch (ConstraintViolationException e){
+            e.printStackTrace();
+            logger.info("咨询订单id为  "+userComment.getBook_id()+" 的咨询评价记录重复插入 插入失败...");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 2;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            logger.info("咨询订单id为  "+userComment.getBook_id()+" 的咨询评价记录插入失败...");
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }catch (Exception e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }
+        finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    /**
+     * 文章上传
+     * @param article
+     * @return
+     */
+    public int SaveUserArticle(Article article){
+        Session session= HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            session.save(article);
+            tx.commit();
+            return 1;
+        }catch (HibernateException e){
+            logger.info("文章标题为："+article.getArticle_title()+"    "+"创建时间为："+format.format(article.getBuild_date())+"  文章存储失败...");
+            e.printStackTrace();
+            return 0;
+        }
+        finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+
+    public int uploadPagePicture(PagePicture pagePicture){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            String sql="update PagePicture set url=:img_url where id=:page_id";
+            Query query = session.createQuery(sql);
+            query.setLong("page_id",pagePicture.getId());
+            query.setString("img_url",pagePicture.getUrl());
+            query.executeUpdate();
+            tx.commit();
+            return 1;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            logger.info("id为  "+pagePicture.getId()+"封面轮播图片更新失败....");
+            return 0;
+        }
+        finally {
             HibernateUtil.closeSession(session);
         }
     }

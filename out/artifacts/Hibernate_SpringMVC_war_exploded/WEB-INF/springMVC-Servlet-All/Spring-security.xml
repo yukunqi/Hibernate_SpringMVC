@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+    <!-- 登录页面不进行过滤-->
+    <security:http pattern="/index/login" security="none"/>
+
+    <security:http use-expressions="false">
+        <!--在Spring 4中使用 security时 如果要使用access IS_AUTHENTICATED_ANONYMOUSLY 的
+         话 要 配置use-expressions 为false(默认为ture) 默认是使用Spring EL expression
+         而你没有使用 或者access="hasRole('...').
+         解决来源： http://stackoverflow.com/questions/33362315/failed-to-evaluate-expression-is-authenticated-anonymously-spring-4  -->
+    <security:form-login
+            login-page="/index/login"
+            login-processing-url="/index/login.do"
+            username-parameter="login_name"
+            password-parameter="password"
+            authentication-failure-forward-url="/index.jsp"
+            authentication-success-forward-url="/index/index"/>
+    <security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+    <!-- 禁用csrf机制 这个机制是用于防止黑客攻击  具体介绍参考百度百科 -->
+    <security:csrf disabled="true"/>
+        <!--停用对匿名认证的支持 -->
+    <security:anonymous enabled="false"/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider
+         user-service-ref="myUserDetailsService">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="myUserDetailsService" class="Index.MyUserDetailsService">
+    </bean>
+
+</beans>

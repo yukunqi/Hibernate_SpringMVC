@@ -53,7 +53,7 @@ public interface expertInfoDAO {
      * @param expert_id
      * @return
      */
-     List<Expert_comment_item> get_expertComment_list(Long expert_id);
+     Expert_comment_item get_expertComment_list(Long expert_id);
 
     /**
      * 根据用户id去查询相应的文章集合
@@ -95,13 +95,13 @@ public interface expertInfoDAO {
      * @return  1成功 0失败 2执行语句错误
      */
     int updatePersonalInfo(Long user_id,String column_name,String data);
-    /**
+/*    *//**
      * 根据老师的id和设置的预约时间id去查询相应的被预约咨询订单集合
      * @param expert_id 老师id
      * @param appointment_id  预约时间id
      * @return list 集合
-     */
-    List<ExpertBookOrderInfo> getExpert_BookOrders(Long expert_id,Long appointment_id);
+     *//*
+    List<ExpertBookOrderInfo> getExpert_BookOrders(Long expert_id,Long appointment_id);*/
     /**
      * 根据咨询订单id去取消未开始的咨询预约订单
      * @param bookOrder_id 订单id
@@ -128,7 +128,7 @@ public interface expertInfoDAO {
      * @param user_id 用户id
      * @return
      */
-    User getUserPersonalInfo(Long user_id);
+    UserPersonalPage getUserPersonalInfo(Long user_id);
     /**
      * 根据用户的id去获取用户的待评价列表数据
      * @param user_id
@@ -168,4 +168,84 @@ public interface expertInfoDAO {
      * @return
      */
     List<Object []> getUserPageInfo(long user_id);
+    /**
+     * 聊天结束，改变订单的状态为待评价
+     * @param book
+     * @return
+     */
+    int updateBookorderStatus(BookOrders book);
+    /**
+     * 获取老师用户的id去获取相应的老师待点评学生的列表数据
+     * @return
+     */
+    List<Object []> getCommentBookordersExpertList(long user_id);
+    /**
+     * 根据老师用户的id去获取相应的老师已点评学生的列表数据
+     * @param user_id
+     * @return
+     */
+    List<Object []> getCommentedBookordersExpertList(long user_id);
+    /**
+     * 获取文章列表
+     * @param page_num 页数 一页5条数据
+     * @return
+     */
+    List<Object []> getArticleList(int page_num);
+    /**
+     *
+     * 获取全部文章列表 PC端
+     * @return
+     */
+    List<Object []> getAllArticleList();
+    /**
+     * 根据文章id获取文章内容
+     * @return
+     */
+    ArticleInfo getArticleDetail(long article_id);
+    /**
+     * 获取文章的markdown内容进行文章的内容编辑
+     * @param article_id
+     * @return
+     */
+    ArticleInfo getArticleMarkdown(long article_id);
+    /**
+     * 根据文章Id删除文章
+     * @param article_id
+     * @return
+     */
+    int DeleteArticle(long article_id);
+    /**
+     * 根据页码获取相应的咨询老师的个人数据集合
+     * @param page_num
+     * @return
+     */
+    List<Object[]> getExpertList(int page_num,long par_id);
+    /**
+     * 获取老师用户数据的总页数
+     * @return 用总数据个数/一页展示个数
+     */
+    int getExpertPageAmount(long par_id);
+    /**
+     * 根据用户id去获取相应的个人数据进行编辑
+     * @param user_id
+     * @return
+     */
+    ExpertPersonalData getExpertPesonalData(long user_id);
+    /**
+     * 更新老师的个人信息数据
+     * @param expert 老师实体类 不包括密码 头像 登录名(不可改)
+     * @return
+     */
+    int UpdateExpertPersonalData(Expert expert);
+    /**
+     * 获取应用程序封面轮播图集合
+     * @return
+     */
+    List<PagePicture> getPagePictureList();
+    /**
+     * 根据父类id去获取所有的子类数据集合
+     * @param par_id 父类id
+     * @return
+     */
+    List<UserType> getUserTypeList(long par_id);
 }

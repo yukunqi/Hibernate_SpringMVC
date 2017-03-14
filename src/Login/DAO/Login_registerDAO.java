@@ -29,4 +29,6 @@ public interface Login_registerDAO {
      * @return  用户id和用户token的集合
      */
     public Map<String,Object> query_user_login(String name,String password);
+
+    int cache_User();
 }

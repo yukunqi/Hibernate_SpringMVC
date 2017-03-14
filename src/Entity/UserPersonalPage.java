@@ -24,8 +24,66 @@ public class UserPersonalPage {
     private Expert_comment_item item;
     //用户id
     private Long id;
+    //用户年级
+    private String grade;
+    //用户email
+    private String email;
+    //用户电话号码
+    private String phone_number;
+    //用户微信
+    private String wechat;
+
 
     public UserPersonalPage() {
+    }
+
+    /*
+      用于普通学生用户的资料编辑
+    */
+    public UserPersonalPage(Long id, String name, String college, String grade, String gender, String profile, String school_name, String introduction, String email, String phone_number, String wechat) {
+        this.id = id;
+        this.name = name;
+        this.college = college;
+        this.grade = grade;
+        this.gender = gender;
+        this.profile = profile;
+        this.school_name = school_name;
+        this.introduction = introduction;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.wechat = wechat;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 
     public UserPersonalPage(Expert_comment_item item) {

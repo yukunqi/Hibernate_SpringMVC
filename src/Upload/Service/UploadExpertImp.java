@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -37,16 +39,11 @@ public class UploadExpertImp {
     public int uploadExpertinfo(String json, HttpServletRequest request){
         Gson gson=new Gson();
         try {
-            Jsondata<Expert> jsondata=gson.fromJson(json,new TypeToken<Jsondata<Expert>>(){}.getType());
-            Expert expert=jsondata.getJsondata();
-            String imageUrl = uploadFile.Upload(request);
-            if (imageUrl.equals("")){
-                return 2;
-            }else {
-                expert.setPage_picture(imageUrl);
-                int i = expertdao.saveExpertData(expert);
-                return i;
-            }
+            Expert expert=gson.fromJson(json,Expert.class);
+            Map<String, String> upload = uploadFile.Upload_1(request);
+            expert.setPage_picture(upload.get("file"));
+            expert.getUser().setProfile(upload.get("file_1"));
+            return expertdao.saveExpertData(expert);
         }catch (JsonSyntaxException e){
             logger.info("老师信息上传JSON数据解析失败......");
             e.printStackTrace();
@@ -130,6 +127,22 @@ public class UploadExpertImp {
             return 6;
         }
     }
+
+    /**
+     * 更新老师封面图片
+     * @param request
+     * @param user_id
+     * @return
+     */
+    public int updateExpertPagePicture(HttpServletRequest request,long user_id){
+            String imageUrl = uploadFile.Upload(request);
+            if (imageUrl.equals("")){
+                return 2;
+            }else {
+                return expertdao.UpdateExpertPagePicture(imageUrl,user_id);
+            }
+    }
+
     /**
      * 根据咨询订单id插入相应的咨询评价数据
      * @param comment
@@ -137,5 +150,39 @@ public class UploadExpertImp {
      */
     public int uploadUserComment(UserComment comment){
         return expertdao.uploadUserComment(comment);
+    }
+    /**
+     * 根据咨询id插入相应的老师的点评信息数据
+     * @param comment
+     * @return
+     */
+    public int uploadExpertComment(UserComment comment){
+        return expertdao.uploadExpertComment(comment);
+    }
+
+    /**
+     * 上传用户文章
+     * @param article
+     * @return
+     */
+    public int SaveArticle(Article article){
+        article.setBuild_date(new Date());
+        User user=new User();
+        user.setId((long)14);
+        article.setUser(user);
+        article.setComment_num(0);
+        article.setWatched_num(0);
+        article.setGood_num(0);
+        return expertdao.SaveUserArticle(article);
+    }
+
+    public int uploadPagePicture(PagePicture pagePicture,HttpServletRequest request){
+        String upload = uploadFile.Upload(request);
+        if ("".equals(upload)){
+            return 2;
+        }else {
+            pagePicture.setUrl(upload);
+            return expertdao.uploadPagePicture(pagePicture);
+        }
     }
 }

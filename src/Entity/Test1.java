@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import com.mchange.v2.c3p0.stmt.GooGooStatementCache;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,47 +23,8 @@ import java.util.*;
  */
 public class Test1 {
 
-    @Test
-    public void Testexpert(){
-        Session session=HibernateUtil.getSession();
-        Transaction tx=HibernateUtil.getTransaction();
-        try {
 
-            Expert expert=new Expert();
-            expert.setBackground("心理学硕士");
-            expert.setMotto("爱是治愈一切的力量");
-            expert.setOthers("平时爱打球爱写作");
-            expert.setQualifications("美国总统随队心理咨询师");
-            expert.setStrongPoint("擅长各种被套路出现的心理问题");
-            expert.setUser_id((long)3);
 
-            User user= (User) session.get(User.class,expert.getUser_id());
-            expert.setUser(user);
-
-            session.save(expert);
-            tx.commit();
-        }catch (HibernateException e){
-            e.printStackTrace();
-            if (tx!=null){
-                tx.rollback();
-            }
-        }finally {
-            HibernateUtil.closeSession(session);
-        }
-    }
-    @Test
-    public void TestGson(){
-        Expert expert=new Expert();
-        expert.setBackground("心理士");
-        expert.setMotto("爱是治愈一切的力量");
-        expert.setOthers("平时爱写作");
-        expert.setQualifications("美国总咨询师");
-        expert.setStrongPoint("擅长各的心理问题");
-        expert.setUser_id((long)18);
-        Gson gson=new Gson();
-        String jsonstr=gson.toJson(expert);
-        System.out.println(jsonstr);
-    }
 
     /**
      * 登录和注册的json数据生成示例
@@ -82,26 +42,6 @@ public class Test1 {
         System.out.println(jsonstr);
     }
 
-    @Test
-    public void Test_ExpertsUpload(){
-        Expert expert=new Expert();
-        expert.setBackground("心理士");
-        expert.setMotto("爱是治愈一切的力量");
-        expert.setOthers("平时爱写作");
-        expert.setQualifications("美国总咨询师");
-        expert.setStrongPoint("擅长各的心理问题");
-        expert.setUser_id((long)18);
-        Jsondata<Expert> jsondata=new Jsondata<>();
-        jsondata.setJsondata(expert);
-        Gson gson=new Gson();
-        String jsonstr=gson.toJson(jsondata);
-        System.out.println(jsonstr);
-        Jsondata<Expert> jsondata1=gson.fromJson(jsonstr,new TypeToken< Jsondata<Expert>>(){}.getType());
-        Expert expert1=jsondata1.getJsondata();
-        System.out.println(expert1.getMotto());
-    }
-
-
     /**
      * 两个long型数字，相除保留两位小数
      */
@@ -115,27 +55,6 @@ public class Test1 {
         System.out.println(r1);
     }
 
-    @Test
-    public void Test(){
-        User user=new User();
-        user.setUsername("奥巴马");
-        user.setEmail("123fsdf");
-        user.setPhone_number("125985");
-        user.setGender("1");
-        Expert expert=new Expert();
-        expert.setUser_id((long) 12);
-        expert.setMotto("hee");
-        expert.setUser(user);
-        Map<String,Object> map=new HashMap<>();
-        map.put("expertCardNumber","1288945");
-        Jsondata<Expert> jsondata=new Jsondata<>();
-        jsondata.setJsondata(expert);
-        jsondata.setMap(map);
-        Gson gson=new Gson();
-        String str=gson.toJson(jsondata);
-        System.out.println(str);
-        Jsondata<Expert> jsondata1=gson.fromJson(str,new TypeToken<Jsondata<Expert>>(){}.getType());
-    }
     @Test
     public void test_workpalce_json(){
         ObjectMapper mapper=new ObjectMapper();
@@ -462,6 +381,70 @@ public class Test1 {
             e.printStackTrace();
         }
     }
+    @Test
+    public void test5(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("sender","2013200021");
+        map.put("receiver","2013200026");
+        map.put("page_num","1");
+        Gson gson=new Gson();
+        String string=gson.toJson(map);
+        System.out.println(string);
+        Map<String,Object> map1=gson.fromJson(string,Map.class);
+        System.out.println(map1.get("name"));
+    }
 
+    @Test
+    public void test6(){
+        UserComment comment=new UserComment();
+        comment.setComment("sdgsgfg");
+        comment.setComment_date(new Date());
+        comment.setAnonymous(1);
+        Level_type level_type=new Level_type();
+        level_type.setId(1);
+        comment.setLevel(level_type);
+        BookOrders bookOrders=new BookOrders();
+        bookOrders.setId((long)3);
+        comment.setBook_id(bookOrders);
+        User user=new User();
+        user.setId((long)3);
+        comment.setMain_user_id(user);
+        User user1=new User();
+        user1.setId((long)4);
+        comment.setSub_user_id(user1);
+        Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        String str=gson.toJson(comment);
+        System.out.println(str);
+    }
+    @Test
+    public void test7(){
+        Expert expert=new Expert();
+        expert.setPage_picture("");
+        expert.setMotto("dfdsf");
+        expert.setConsult_number(0);
+        User user=new User();
+        user.setId((long)34);
+        user.setLogin_name("sfsdfdsf");
+        user.setPassword("dfsdsdf");
+        user.setUsername("fsdfsdfs");
+        user.setGender("男");
+        user.setCollege("传播学院");
+        user.setGrade("大三");
+        user.setProfile("fdsfdsf");
+        user.setWechat("fdsfsdfsdf");
+        user.setIntroduction("dsfdsfdsf");
+        user.setSchool_name("深圳大学");
+        user.setEmail("dfsfdsf");
+        UserType userType=new UserType();
+        userType.setId((long)2);
+        user.setUserType(userType);
+        expert.setUser(user);
 
+        Gson gson=new Gson();
+        System.out.println(gson.toJson(expert));
+    }
+    @Test
+    public void test8(){
+
+    }
 }

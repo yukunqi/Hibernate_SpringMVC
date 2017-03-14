@@ -3,9 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/springMVC-Servlet-All/Spring-security.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/index/*</url-pattern>
+    </filter-mapping>
     <filter>
         <filter-name>setCharacterEncoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -47,6 +62,31 @@
         <url-pattern>/upload/*</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/springMVC-Servlet-All/IndexServlet-springMVC.xml</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IndexServlet</servlet-name>
+        <url-pattern>/index/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChatLogsServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>WEB-INF/springMVC-Servlet-All/ChatLogsServlet-springMVC.xml</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChatLogsServlet</servlet-name>
+        <url-pattern>/ChatLogs/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ProxoolAdmin</servlet-name>
         <servlet-class>org.logicalcobwebs.proxool.admin.servlet.AdminServlet</servlet-class>
     </servlet>
@@ -54,4 +94,15 @@
         <servlet-name>ProxoolAdmin</servlet-name>
         <url-pattern>/proxoolAdmin</url-pattern>
     </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>proxoolServletConfigurator</servlet-name>-->
+        <!--<servlet-class>-->
+            <!--org.logicalcobwebs.proxool.configuration.ServletConfigurator-->
+        <!--</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>xmlFile</param-name>-->
+            <!--<param-value>WEB-INF/proxool.xml</param-value>-->
+        <!--</init-param>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
 </web-app>

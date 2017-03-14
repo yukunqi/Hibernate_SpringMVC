@@ -4,6 +4,8 @@ import Login.DAO.Login_registerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.support.SaxResourceUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class Login_registerServiceImp implements Login_registerService{
     private  Logger logger=Logger.getLogger(Login_registerServiceImp.class.getName());
 
     @Override
+    @Transactional
     public Map<String, Object> register_data(User user) {
         /**
          * 浏览器默认编码是 ISO-8859-1,转成我们需要的utf-8。
@@ -42,10 +45,11 @@ public class Login_registerServiceImp implements Login_registerService{
         }
     }
 
+
     @Override
     public Map<String, Object> login_data(String name, String password) {
 
-        Map<String,Object> map=null;
+        Map<String,Object> map=new HashMap<>();
         try {
             //name=new String(name.getBytes("ISO-8859-1"),"utf-8");
             password=new String(password.getBytes("ISO-8859-1"),"utf-8");
@@ -70,5 +74,9 @@ public class Login_registerServiceImp implements Login_registerService{
             e.printStackTrace();
             return map;
         }
+    }
+
+    public int cache_user_test(){
+        return login_registerDAO.cache_User();
     }
 }

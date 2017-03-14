@@ -1,5 +1,6 @@
 package Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user",schema = "xinli")
-@Cache(region = "Entity.User",usage =CacheConcurrencyStrategy.READ_WRITE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
 
     private Long id;
@@ -86,7 +87,13 @@ public class User implements Serializable {
         this.userType = userType;
     }
 
-
+    public User(String login_name, String password, String username, Long id,UserType userType) {
+        this.login_name = login_name;
+        this.password = password;
+        this.username = username;
+        this.id = id;
+        this.userType = userType;
+    }
 
     @Id
     @GeneratedValue

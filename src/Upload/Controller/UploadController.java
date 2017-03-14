@@ -12,6 +12,9 @@ import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -35,29 +38,30 @@ public class UploadController {
 
     @ResponseBody
     @RequestMapping(value = "/uploadImage",method = RequestMethod.POST)
-    public Map<String,Object> uploadImage(HttpServletRequest request){
+    public Map<String,Object> uploadImage(@RequestParam(value = "editormd-image-file",required = false)MultipartFile file){
             Map<String,Object> map=new HashMap<>();
-            String url=uploadFile.Upload(request);
+            String url=uploadFile.UploadMultipartFile(file);
                 if (url.equals("")){
-                    map.put("StatueCode",0);
+                    map.put("success",0);
                 }else {
-                map.put("StatueCode",1);
+                map.put("success",1);
+                map.put("message","image upload success");
                 }
-            map.put("ImageUrl",url);
+                map.put("url",url);
                 return map;
     }
 
     /**
      * 老师信息上传接口
      * @param request
-     * @param jsonExpert
+     * @param
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/uploadExpertinfo",method = RequestMethod.POST)
-    public Map<String,Object> uploadExpertinfo(HttpServletRequest request,String jsonExpert){
+    public Map<String,Object> uploadExpertinfo(HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
-        int result=uploadExpertImp.uploadExpertinfo(jsonExpert,request);
+        int result=uploadExpertImp.uploadExpertinfo(request.getParameter("jsonExpert"),request);
         map.put("StatusCode",result);
         return map;
     }
@@ -223,14 +227,14 @@ public class UploadController {
             String data= (String) map.get("data");
             int i;
             try {
-                double num= (double) map.get("user_id");
+                double num= Double.parseDouble(String.valueOf(map.get("user_id")));
                 if (column_name==null||data==null){
                     i=6;
                 }else {
                     Long user_id= Math.round(num);
                     i=expertInfoService.updatePersonalInfo(user_id,column_name,data);
                 }
-            }catch (NullPointerException e){
+            }catch (Exception e){
                 i=6;
             }
             map1.put("StatusCode",i);
@@ -241,13 +245,13 @@ public class UploadController {
         return map1;
     }
 
-    /**
+/*    *//**
      * 获取老师指定预约时间被预约咨询订单集合
      * @param expert_id 老师id
      * @param appointment_id 预约时间id
      * @param type 集合类型
      * @return
-     */
+     *//*
     @ResponseBody
     @RequestMapping(value = "/GET/expertBookOrders/{type}/{expert_id}/{appointment_id}",method = RequestMethod.GET)
     public Map<String,Object> getExpert_BookOrders(@PathVariable(value = "expert_id") Long expert_id,
@@ -255,7 +259,7 @@ public class UploadController {
                                                    @PathVariable(value = "type") String type){
 
         return expertInfoService.getExpert_BookOrders(expert_id,appointment_id,type);
-    }
+    }*/
 
     /**
      * 更新用户头像
@@ -269,6 +273,20 @@ public class UploadController {
         int i = uploadExpertImp.updateUserProfile(request, updateJson);
         Map<String,Object> map=new HashMap<>();
         map.put("StatusCode",i);
+        return map;
+    }
+
+    /**
+     * 更新老师封面图片
+     * @param request
+     * @param updateJson
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/UPDATE/expertPagePicture",method = RequestMethod.POST)
+    public Map<String,Object> UpdateExpertPagePicture(HttpServletRequest request,String updateJson){
+        Map<String,Object> map=new HashMap<>();
+        map.put("StatusCode",uploadExpertImp.updateExpertPagePicture(request,Long.parseLong(updateJson)));
         return map;
     }
 
@@ -378,6 +396,32 @@ public class UploadController {
     }
 
     /**
+     * 根据咨询id插入相应的老师的点评信息数据
+     * @param userCommentJson
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/POST/ExpertComment",method = RequestMethod.POST)
+    public Map<String,Object> uploadExpertComment(String userCommentJson){
+        Gson gson=new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            UserComment comment=gson.fromJson(userCommentJson,UserComment.class);
+            int i=uploadExpertImp.uploadExpertComment(comment);
+            map.put("StatusCode",i);
+        }catch (JsonSyntaxException e){
+            logger.info("咨询评价Json数据解析失败.....");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("咨询评价Json数据实体不存在或者其他错误.....");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    /**
      * 根据用户Id去获取相应的老师个人被评价列表
      * @param user_id
      * @return
@@ -433,4 +477,303 @@ public class UploadController {
         return map;
     }
 
+    /**
+     * 聊天结束后,更新咨询订单状态为待评价
+     * @param bookJson
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/UPDATE/BookorderStatus",method = RequestMethod.POST)
+    public Map<String,Object> updateBookorderStatus(String bookJson){
+        Map<String,Object> map=new HashMap<>();
+        Gson gson=new Gson();
+        try {
+            BookOrders bookOrders=gson.fromJson(bookJson,BookOrders.class);
+            map.put("StatusCode",expertInfoService.updateBookorderStatus(bookOrders));
+        }catch (JsonSyntaxException e){
+            logger.info("咨询评价Json数据解析失败.....");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("咨询评价Json数据实体不存在或者其他错误.....");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    /**
+     * 根据老师用户id去获取相应的已点评信息列表
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/CommentedBookordersExpertList/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getCommentedBookordersExpertList(@PathVariable(value = "user_id") Long user_id){
+        Map<String,Object> map=new HashMap<>();
+        List<CommentedBookorderEntity> list = expertInfoService.getCommentedBookordersExpertList(user_id);
+        if (list!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",list);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 根据老师用户id去获取相应的待点评信息列表
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/CommentBookordersExpertList/{user_id}",method = RequestMethod.GET)
+    public Map<String,Object> getCommentBookordersExpertList(@PathVariable(value = "user_id") Long user_id){
+        Map<String,Object> map=new HashMap<>();
+        List<CommentBookorderEntity> list = expertInfoService.getCommentBookordersExpertList(user_id);
+        if (list!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",list);
+        }else{
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 用户上传文章
+     * @param article
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/POST/NewArticle",method = RequestMethod.POST)
+    public Map<String,Object> publishArticle(@RequestBody Article article){
+
+        int start=article.getArticle_content().indexOf("<img src=");
+        String pic="";
+        if (start!=-1){
+            int end=article.getArticle_content().indexOf("\"",start+10);
+            pic=article.getArticle_content().substring(start+10,end);
+        }
+        article.setArticle_picture(pic);
+        System.out.println(article.getArticle_picture());
+        Map<String,Object> map=new HashMap<>();
+        map.put("statusCode",uploadExpertImp.SaveArticle(article));
+        map.put("statusCode",1);
+        return map;
+    }
+
+    /**
+     * 根据页码请求文章列表
+     * @param page_num 页数  移动端
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/ArticleList/{page_num}",method = RequestMethod.GET)
+    public Map<String,Object> getArticleList(@PathVariable(value = "page_num") int page_num){
+        Map<String,Object> map=new HashMap<>();
+        List<ArticleInfo> articleList = expertInfoService.getArticleList(page_num);
+        if (articleList!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",articleList);
+        }else {
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * PC端请求全部文章
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/PC/AllArticleList",method = RequestMethod.GET)
+    public Map<String,Object> getAllArticleList(){
+        Map<String,Object> map=new HashMap<>();
+        List<ArticleInfo> articleList = expertInfoService.getAllArticleList();
+        if (articleList!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",articleList);
+        }else {
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 根据文章id去获取文章内容
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/ArticleDetail",method = RequestMethod.POST)
+    public Map<String,Object> getArticleDetail(@RequestBody Map<String,Object> map){
+        String id=String.valueOf(map.get("article_id"));
+        ArticleInfo article_info = expertInfoService.getArticleDetail(Long.valueOf(id));
+        Map<String,Object> map1=new HashMap<>();
+        if (article_info!=null){
+            map1.put("StatusCode",1);
+            map1.put("jsondata",article_info);
+        }else {
+            map1.put("StatusCode",0);
+        }
+        return map1;
+    }
+
+    /**
+     * 获取文章的markdown内容进行文章的内容编辑
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/ArticleMarkdown",method = RequestMethod.POST)
+    public Map<String,Object> getArticleMarkdown(@RequestBody Map<String,Object> map){
+        String id=String.valueOf(map.get("article_id"));
+        ArticleInfo article_info = expertInfoService.getArticleMarkdown(Long.valueOf(id));
+        Map<String,Object> map1=new HashMap<>();
+        if (article_info!=null){
+            map1.put("StatusCode",1);
+            map1.put("jsondata",article_info);
+        }else {
+            map1.put("StatusCode",0);
+        }
+        return map1;
+    }
+
+    /**
+     * 根据文章id删除文章
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete/Article",method = RequestMethod.POST)
+    public Map<String,Object> deleteArticle(@RequestBody Map<String,Object> map){
+        String id=String.valueOf(map.get("article_id"));
+        Map<String,Object> map1=new HashMap<>();
+        map1.put("StatusCode",expertInfoService.DeleteArticle(Long.valueOf(id)));
+        return map1;
+    }
+
+    /**
+     * 根据页码获取相应的老师用户个人信息管理列表
+     * @param page_num 页数
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/ExpertList/{user_type}/{page_num}",method = RequestMethod.GET)
+    public Map<String,Object> getExpertList(@PathVariable(value = "page_num") int page_num,
+                                            @PathVariable(value = "user_type") long par_id){
+        return expertInfoService.getExpertList(page_num,par_id);
+    }
+
+    /**
+     * 根据用户id去获取相应的个人数据进行编辑
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/ExpertPersonalData",method = RequestMethod.GET)
+    public Map<String,Object> getExpertPersonalData(long user_id){
+        ExpertPersonalData expert= expertInfoService.getExpertPersosnalData(user_id);
+        Map<String,Object> map=new HashMap<>();
+        if (expert!=null){
+            map.put("jsondata",expert);
+            map.put("StatusCode",1);
+        }else {
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 更新老师个人信息数据
+     * @param map1
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/UPDATE/ExpertPersonalData",method = RequestMethod.POST)
+    public Map<String,Object> UpdateExpertPersonalData(@RequestBody Map<String,Object> map1){
+        Gson gson=new Gson();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            Expert expert = gson.fromJson(String.valueOf(map1.get("jsonexpert")), Expert.class);
+            map.put("StatusCode",expertInfoService.UpdateExpertPersonalData(expert));
+        }catch (JsonSyntaxException e){
+            logger.info("更新老师信息JSON数据解析失败......");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("更新老师信息JSON数据实体不存在或其他内部错误......");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    /**
+     * 获取应用程序封面轮播图集合
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/PagePictureList",method = RequestMethod.GET)
+    public Map<String,Object> getPagePictureList(){
+        Map<String,Object> map=new HashMap<>();
+        List<PagePicture> pagePictureList = expertInfoService.getPagePictureList();
+        if (pagePictureList!=null){
+            map.put("StatusCode",1);
+            map.put("jsondata",pagePictureList);
+        }else {
+            map.put("StatusCode",0);
+        }
+        return map;
+    }
+
+    /**
+     * 上传封面轮播图片
+     * @param request
+     * @param jsondata
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/POST/PagePicture",method = RequestMethod.POST)
+    public Map<String,Object> uploadPagePicture(HttpServletRequest request,String jsondata){
+        Gson gson=new Gson();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            PagePicture page=gson.fromJson(jsondata,PagePicture.class);
+            map.put("StatusCode",uploadExpertImp.uploadPagePicture(page,request));
+        }catch (JsonSyntaxException e){
+            logger.info("更新老师信息JSON数据解析失败......");
+            e.printStackTrace();
+            map.put("StatusCode",5);
+        }catch (Exception e){
+            logger.info("更新老师信息JSON数据实体不存在或其他内部错误......");
+            e.printStackTrace();
+            map.put("StatusCode",6);
+        }
+        return map;
+    }
+
+    /**
+     * 根据par_id 去获取相应的子类（用户类型）数据集合
+     * @param par_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/GET/UserTypeList/{par_id}",method = RequestMethod.GET)
+    public Map<String,Object> getUserTypeList(@PathVariable(value = "par_id") long par_id){
+        Map<String,Object> map=new HashMap<>();
+        if (par_id==1||par_id==2){
+            List<UserType> userTypeList = expertInfoService.getUserTypeList(par_id);
+            if (userTypeList!=null){
+                map.put("StatusCode",1);
+                map.put("jsondata",userTypeList);
+            }else {
+                map.put("StatusCode",0);
+            }
+        }else {
+            map.put("StatusCode",2);
+        }
+        return map;
+    }
 }

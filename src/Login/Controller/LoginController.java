@@ -81,4 +81,10 @@ public class LoginController {
         }
 
     }
+    @RequestMapping(value = "cache/{id}",method = RequestMethod.GET)
+    public String test_cache(@PathVariable(value = "id") long id){
+        System.out.println(id);
+        login_registerService.cache_user_test();
+        return "hello";
+    }
 }

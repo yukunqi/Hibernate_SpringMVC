@@ -16,7 +16,7 @@ Anything outside the "proxool" tag is ignored. -->
         </driver-properties>
         <house-keeping-test-sql>SELECT CURRENT_DATE</house-keeping-test-sql>
         <simultaneous-build-throttle>20</simultaneous-build-throttle>
-        <maximum-connection-count>15</maximum-connection-count>
+        <maximum-connection-count>30</maximum-connection-count>
         <minimum-connection-count>10</minimum-connection-count>
     </proxool>
 </something-else-entirely>

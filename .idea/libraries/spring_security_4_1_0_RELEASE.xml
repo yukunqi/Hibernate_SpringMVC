@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="spring-security-4.1.0.RELEASE">
+    <CLASSES>
+      <root url="jar://F:/编程/软件集合/spring-security-4.1.0.RELEASE/spring-security-config-4.1.0.RELEASE.jar!/" />
+      <root url="jar://F:/编程/软件集合/spring-security-4.1.0.RELEASE/spring-security-core-4.1.0.RELEASE.jar!/" />
+      <root url="jar://F:/编程/软件集合/spring-security-4.1.0.RELEASE/spring-security-crypto-4.1.0.RELEASE.jar!/" />
+      <root url="jar://F:/编程/软件集合/spring-security-4.1.0.RELEASE/spring-security-taglibs-4.1.0.RELEASE.jar!/" />
+      <root url="jar://F:/编程/软件集合/spring-security-4.1.0.RELEASE/spring-security-web-4.1.0.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

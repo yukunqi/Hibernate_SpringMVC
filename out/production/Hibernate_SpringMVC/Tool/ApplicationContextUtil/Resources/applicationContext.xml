@@ -1,6 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+       <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+       <!--xmlns:context="http://www.springframework.org/schema/context"-->
+       <!--xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">-->
 
-</beans>
+    <!---->
+    <!--&lt;!&ndash; 配置数据源 &ndash;&gt;-->
+    <!--<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">-->
+      <!--<property name="alias"><value>DBPool</value></property>-->
+      <!--<property name="driver"><value>com.mysql.jdbc.Driver</value></property>-->
+      <!--<property name="driverUrl"><value>jdbc:mysql://localhost:3306/xinli?useUnicode=true&amp;characterEncoding=UTF8</value></property>-->
+      <!--<property name="user"><value>yukunqi_leap</value></property>-->
+      <!--<property name="password"><value>yukunqi123</value></property>-->
+      <!--<property name="maximumConnectionCount"><value>15</value></property>-->
+      <!--<property name="minimumConnectionCount"><value>10</value></property>-->
+      <!--<property name="houseKeepingTestSql"><value>SELECT CURRENT_DATE</value></property>-->
+    <!--</bean>-->
+
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="packagesToScan">-->
+            <!--<list>-->
+                <!--<value>Entity</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+                <!--<prop key="show_sql">true</prop>-->
+                <!--<prop key="format_sql">true</prop>-->
+                <!--&lt;!&ndash; DB schema will be updated if needed &ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hbm2ddl.auto">update</prop>&ndash;&gt;-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 配置Hibernate事务管理器 &ndash;&gt;-->
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 配置事务异常封装 &ndash;&gt;-->
+    <!--<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
+
+<!--</beans>-->

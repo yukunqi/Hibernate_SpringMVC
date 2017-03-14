@@ -21,8 +21,10 @@ public class BookOrders {
     private User expert_user_id;
     //咨询持续时长
     private String duration_time;
-    //预约时间段id
-    private AppointmentSetting appointmentSetting;
+    //学生评价状态
+    private int book_user_status;
+    //老师评价状态
+    private int book_expert_status;
 
 
     public BookOrders() {
@@ -76,15 +78,7 @@ public class BookOrders {
         this.duration_time = duration_time;
     }
 
-    @OneToOne
-    @JoinColumn(name = "appointment_id")
-    public AppointmentSetting getAppointmentSetting() {
-        return appointmentSetting;
-    }
 
-    public void setAppointmentSetting(AppointmentSetting appointmentSetting) {
-        this.appointmentSetting = appointmentSetting;
-    }
     @OneToOne
     @JoinColumn(name = "user_id")
     public User getUser_id() {
@@ -105,5 +99,21 @@ public class BookOrders {
         this.expert_user_id = expert_user_id;
     }
 
+    @Column(name = "book_user_status")
+    public int getBook_user_status() {
+        return book_user_status;
+    }
 
+    public void setBook_user_status(int book_user_status) {
+        this.book_user_status = book_user_status;
+    }
+
+    @Column(name = "book_expert_status")
+    public int getBook_expert_status() {
+        return book_expert_status;
+    }
+
+    public void setBook_expert_status(int book_expert_status) {
+        this.book_expert_status = book_expert_status;
+    }
 }

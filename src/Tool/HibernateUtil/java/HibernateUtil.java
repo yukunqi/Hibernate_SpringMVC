@@ -51,13 +51,13 @@ public class HibernateUtil {
     }
 
     public static Session getSession(){
-        session=sessionFactory.openSession();
+        session=sessionFactory.getCurrentSession();
         if (session!=null){
             return session;
         }else {
             Logger logger=Logger.getLogger(HibernateUtil.class.getName());
-            logger.info("session is null HibernateUtil");
-            return null;
+            logger.info("session is null HibernateUtil open a new session");
+            return sessionFactory.openSession();
         }
     }
     public static Transaction getTransaction(){

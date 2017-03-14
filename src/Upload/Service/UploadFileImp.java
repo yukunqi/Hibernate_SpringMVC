@@ -1,6 +1,6 @@
 package Upload.Service;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -8,8 +8,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -20,8 +19,8 @@ import java.util.logging.Logger;
 public class UploadFileImp implements UploadFile{
 
     //图片浏览地址的url前缀
-    private String RPE_URL="http://119.29.199.192:8080";
-    //private String RPE_URL="http://localhost:8080";
+    //private String RPE_URL="http://119.29.199.192:8080";
+    private String RPE_URL="http://localhost:8080";
     private Logger logger=Logger.getLogger(UploadFileImp.class.getName());
 /*
     //图片浏览地址的url前缀
@@ -56,7 +55,6 @@ public class UploadFileImp implements UploadFile{
                             int after= (int) System.currentTimeMillis();
                             System.out.println("上传成功.... upload success");
                             System.out.println("用时:"+(after-pre));
-
                             return CreateURL(NewfileName,dirpath);
                         } catch (IOException e) {
                             System.out.println("上传失败.... upload fail");
@@ -74,6 +72,101 @@ public class UploadFileImp implements UploadFile{
         }else {
             System.out.println("不是文件....");
         }
+        return "";
+    }
+
+    public Map<String,String> Upload_1(HttpServletRequest request){
+        Map<String,String> map=new HashMap<>();
+        CommonsMultipartResolver resolver=new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (resolver.isMultipart(request)){
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
+            MultiValueMap<String, MultipartFile> multiFileMap = multiRequest.getMultiFileMap();
+
+            //获取文件上传时使用的参数 返回图片的URL作为value
+            //参数作为key 去查询 当没有图片上传时 也能将空字符串存入字段中去
+            Enumeration<String> parameterNames = multiRequest.getParameterNames();
+            while (parameterNames.hasMoreElements()){
+                map.put(parameterNames.nextElement(),"");
+            }
+
+            Iterator<String> iterator_name = multiFileMap.keySet().iterator();
+
+            Iterator<String> iterator=multiRequest.getFileNames();
+            while (iterator.hasNext()){
+                int pre= (int) System.currentTimeMillis();
+                MultipartFile file=multiRequest.getFile(iterator.next());
+                if (file!=null){
+                    String fileName=file.getOriginalFilename();
+                    //判断文件名是否为空，来判断文件是否为空
+                    if (fileName.trim()!=""){
+                        //生成新的唯一的文件名字
+                        String NewfileName=makeFileName(fileName);
+                        //指定文件的存放路径
+                        String dirpath=makePath(NewfileName);
+                        //生成文件，路径是存放路径+文件名
+                        File localfile=new File(dirpath,NewfileName);
+                        if (localfile.exists()){
+                            System.out.println("文件已经存在...file is existed");
+                        }
+                        try {
+                            file.transferTo(localfile);
+                            int after= (int) System.currentTimeMillis();
+                            System.out.println("上传成功.... upload success");
+                            System.out.println("用时:"+(after-pre));
+                            map.put(iterator_name.next(),CreateURL(NewfileName,dirpath));
+                        } catch (IOException e) {
+                            System.out.println("上传失败.... upload fail");
+                            logger.info("上传失败.... upload fail");
+                            e.printStackTrace();
+                            map.put(iterator_name.next(),"");
+                        }catch (MaxUploadSizeExceededException e){
+                            System.out.println("超过上传限制大小....");
+                            e.printStackTrace();
+                            map.put(iterator_name.next(),"");
+                        }
+                    }
+                }
+            }
+        }else {
+            System.out.println("不是文件....");
+        }
+        return map;
+    }
+
+    public String UploadMultipartFile(MultipartFile file){
+                int pre= (int) System.currentTimeMillis();
+                if (file!=null){
+                    String fileName=file.getOriginalFilename();
+                    //判断文件名是否为空，来判断文件是否为空
+                    if (fileName.trim()!=""){
+                        //生成新的唯一的文件名字
+                        String NewfileName=makeFileName(fileName);
+                        //指定文件的存放路径
+                        String dirpath=makePath(NewfileName);
+                        //生成文件，路径是存放路径+文件名
+                        File localfile=new File(dirpath,NewfileName);
+                        if (localfile.exists()){
+                            System.out.println("文件已经存在...file is existed");
+                        }
+                        try {
+                            file.transferTo(localfile);
+                            int after= (int) System.currentTimeMillis();
+                            System.out.println("上传成功.... upload success");
+                            System.out.println("用时:"+(after-pre));
+
+                            return CreateURL(NewfileName,dirpath);
+                        } catch (IOException e) {
+                            System.out.println("上传失败.... upload fail");
+                            logger.info("上传失败.... upload fail");
+                            e.printStackTrace();
+                            return "";
+                        }catch (MaxUploadSizeExceededException e){
+                            System.out.println("超过上传限制大小....");
+                            e.printStackTrace();
+                            return "";
+                        }
+                    }
+                }
         return "";
     }
 
@@ -99,8 +192,8 @@ public class UploadFileImp implements UploadFile{
         int hashcode=saveFilename.hashCode();
         //配置了Tomcat外部的访问路径，要在配置中设置虚拟路径找到把Tomcat访问
         //路径映射到这个本地磁盘的某个路径下
-        //String savePath="F:/JavaProject_For_Intellij IDEA/javaProject_static/image";
-        String savePath="/data/web_static/image";
+        String savePath="F:/JavaProject_For_Intellij IDEA/javaProject_static/image";
+        //String savePath="/data/web_static/image";
         //为防止一个目录下面出现太多文件，要使用hash算法打散存储
         int dir=hashcode&0xf;
         int dir2=(hashcode&0xf0)>>4;

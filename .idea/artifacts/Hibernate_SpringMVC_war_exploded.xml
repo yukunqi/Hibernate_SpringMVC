@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Hibernate_SpringMVC:war exploded">
+  <artifact type="exploded-war" build-on-make="true" name="Hibernate_SpringMVC:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/Hibernate_SpringMVC_war_exploded</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="Hibernate_SpringMVC/web/Web" />
@@ -9,16 +9,19 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Spring-4.3.1.RELEASE" />
-          <element id="library" level="project" name="dom4j-1.6.1" />
           <element id="library" level="project" name="Spring MVC-4.3.1.RELEASE" />
           <element id="library" level="project" name="jackson-annotations-2.6.0-rc4" />
           <element id="library" level="project" name="gson-2.3.1" />
-          <element id="library" level="project" name="httpclient-4.5" />
-          <element id="library" level="project" name="com.springsource.org.apache.commons.fileupload-1.2.0" />
           <element id="library" level="project" name="proxool-0.9.1" />
           <element id="library" level="project" name="hibernate-proxool-4.3.9.Final" />
           <element id="library" level="project" name="proxool-cglib" />
           <element id="library" level="project" name="ehcache" />
+          <element id="library" level="project" name="jstl" />
+          <element id="library" level="project" name="spring-security-4.1.0.RELEASE" />
+          <element id="library" level="project" name="dom4j-1.6.1" />
+          <element id="library" level="project" name="javaEE 6" />
+          <element id="library" level="project" name="jboss-logging-3.1.3." />
+          <element id="library" level="project" name="httpcore-4.4.1" />
         </element>
       </element>
     </root>

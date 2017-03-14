@@ -3,9 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="
-
-http://www.springframework.org/schema/beans
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 
 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
@@ -20,7 +19,7 @@ http://www.springframework.org/schema/context/spring-context-3.2.xsd
 http://www.springframework.org/schema/mvc
 
 
-http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 <context:component-scan base-package="Upload"/>
 <context:property-placeholder location="classpath:Upload/conf/imageUrl.properties"/>
     <mvc:annotation-driven/>
@@ -47,4 +46,40 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
         <property name="maxUploadSize" value="104857600"> </property>
         <property name="maxInMemorySize" value="1024"> </property>
     </bean>-->
+
+    <!--<bean id="my_dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="org.logicalcobwebs.proxool.ProxoolDriver"/>-->
+        <!--<property name="url" value="proxool.DBPool"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="my_dataSource"/>-->
+
+        <!--<property name="packagesToScan">-->
+            <!--<list>-->
+                <!--<value>Entity</value>-->
+            <!--</list>-->
+        <!--</property>-->
+
+        <!--<property name="hibernateProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.format_sql">true</prop>-->
+                <!--<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>-->
+                <!--&lt;!&ndash; DB schema will be updated if needed &ndash;&gt;-->
+                <!--&lt;!&ndash;<prop key="hbm2ddl.auto">update</prop>&ndash;&gt;-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 配置Hibernate事务管理器 &ndash;&gt;-->
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 声明使用注解式事务 &ndash;&gt;-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <!--&lt;!&ndash; 配置事务异常封装 &ndash;&gt;-->
+    <!--&lt;!&ndash;<bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>&ndash;&gt;-->
+
 </beans>

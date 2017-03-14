@@ -5,12 +5,10 @@ import Entity.User;
 import Entity.UserToken;
 import Entity.UserType;
 import Tool.HibernateUtil.java.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.junit.Test;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -47,7 +45,6 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             token.setUser(u1);
             token.setToken(UUID.randomUUID().toString());
             session.save(token);
-
             tx.commit();
             return 1;
         }catch (HibernateException e){
@@ -85,6 +82,8 @@ public class Login_registerDAOImp implements Login_registerDAO  {
             return "";
         }catch (NullPointerException e){
             return "";
+        }finally {
+            HibernateUtil.closeSession(session);
         }
     }
 
@@ -128,5 +127,33 @@ public class Login_registerDAOImp implements Login_registerDAO  {
         }finally {
             HibernateUtil.closeSession(session);
         }
+    }
+
+    public int cache_User(){
+        Session session=HibernateUtil.getSession();
+        Transaction tx=HibernateUtil.getTransaction();
+        try {
+            User user = (User) session.load(User.class,(long)4);
+            System.out.println(user.getLogin_name());
+            System.out.println(user.getProfile());
+            tx.commit();
+            if (user.getLogin_name()!=null){
+                return 1;
+            }else{
+                return 2;
+            }
+        }catch (HibernateException e){
+            e.printStackTrace();
+            if (tx!=null){
+                tx.rollback();
+            }
+            return 0;
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+    }
+    @Test
+    public void test(){
+        cache_User();
     }
 }

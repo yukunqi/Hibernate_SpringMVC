@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id":123,
+      "username":"张小丽",
+      "college":"传播学院",
+      "school_name":"深圳大学",
+      "gender":"女",
+      "login_name":"zxl123456",
+      "email":"230562598@qq.com",
+      "phone_number":"15625896562"
+    },
+    {
+      "id":456,
+      "username":"李大伟",
+      "college":"材料学院",
+      "school_name":"深圳大学",
+      "gender":"男",
+      "login_name":"ldw2017",
+      "email":"230563498@qq.com",
+      "phone_number":"15684896562"
+    }
+  ]
+}

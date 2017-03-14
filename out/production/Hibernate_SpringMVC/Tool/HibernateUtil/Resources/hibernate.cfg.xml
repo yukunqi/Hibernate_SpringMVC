@@ -7,14 +7,15 @@
         <!-- DB schema will be updated if needed -->
         <!--<property name="hbm2ddl.auto">update</property>-->
         <!-- 启用二级缓存-->
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <!-- 启用二级缓存ehcache插件-->
-       <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-        <!-- 打开查询缓存-->
-        <property name="hibernate.cache.use_query_cache">true</property>
+        <!--<property name="hibernate.cache.use_second_level_cache">true</property>-->
+        <!--&lt;!&ndash; 启用二级缓存ehcache插件&ndash;&gt;-->
+       <!--<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>-->
+        <!--&lt;!&ndash; 打开查询缓存&ndash;&gt;-->
+        <!--<property name="hibernate.cache.use_query_cache">true</property>-->
+        <!--<property name="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</property>-->
 
-        <property name="hibernate.cache.provider_configuration_file_resource_path">ehcache-setting.xml</property>
-
+     <!-- 使用current session-->
+        <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.connection.provider_class">org.hibernate.proxool.internal.ProxoolConnectionProvider</property>
         <property name="hibernate.proxool.pool_alias">DBPool</property>
         <property name="hibernate.proxool.xml">proxool.xml</property>
@@ -36,5 +37,7 @@
         <mapping class="Entity.UserType"/>
         <mapping class="Entity.UserComment"/>
         <mapping class="Entity.Level_type"/>
+        <mapping class="Entity.ChatLogs"/>
+        <mapping class="Entity.PagePicture"/>
     </session-factory>
 </hibernate-configuration>

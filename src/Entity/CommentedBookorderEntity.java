@@ -1,8 +1,11 @@
 package Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * 已评价的咨询订单实体类
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommentedBookorderEntity {
 
     //名字

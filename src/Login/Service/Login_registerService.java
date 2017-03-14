@@ -23,4 +23,6 @@ public interface Login_registerService {
      * @return 返回状态码，用户id 用户验证token
      */
     public Map<String,Object> login_data(String name,String password);
+
+    int cache_user_test();
 }

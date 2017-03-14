@@ -34,5 +34,20 @@
     用户咨询评价Json字符串:<input type="text" name="userCommentJson"><br>
     <input type="submit" value="提交">
 </form>
+
+<h1>聊天记录查询接口测试</h1>
+<form action="ChatLogs/POST/getUserChatLogs" method="post">
+    聊天记录查询json字符串:<input type="text" name="chatlogsJson"><br>
+    <input type="submit" value="提交">
+</form>
+
+
+<h1>聊天结束后更新咨询订单状态为待评价接口测试</h1>
+<form action="upload/UPDATE/BookorderStatus" method="post">
+    >聊天结束后更新咨询订单状态json字符串:<input type="text" name="bookJson"><br>
+    <input type="submit" value="提交">
+</form>
+
+
 </body>
 </html>

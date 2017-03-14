@@ -24,8 +24,10 @@ public class Article {
     private int comment_num;
     //点赞数
     private int good_num;
-    //文章内容
+    //文章内容(html)
     private String article_content;
+    //文章内容(markdown)
+    private String article_markdown;
     //文章配图
     private String article_picture;
 
@@ -122,5 +124,14 @@ public class Article {
 
     public void setArticle_picture(String article_picture) {
         this.article_picture = article_picture;
+    }
+
+    @Column(name = "article_markdown")
+    public String getArticle_markdown() {
+        return article_markdown;
+    }
+
+    public void setArticle_markdown(String article_markdown) {
+        this.article_markdown = article_markdown;
     }
 }

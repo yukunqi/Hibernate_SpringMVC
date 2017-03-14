@@ -1,5 +1,7 @@
 package Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +9,7 @@ import java.util.Date;
 /**
  * 待评价的咨询订单实体类
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommentBookorderEntity implements Serializable {
     //名字
     private String name;
@@ -28,8 +31,6 @@ public class CommentBookorderEntity implements Serializable {
     private double good_comment;
     //咨询人数
     private int cousult_number;
-    //点评id
-    private Long comment_id;
     //聊天的姓名
     private String main_chat_name;
     //对方的聊天的姓名
@@ -40,7 +41,7 @@ public class CommentBookorderEntity implements Serializable {
     public CommentBookorderEntity() {
     }
 
-    public CommentBookorderEntity(String name, String profile, String user_type, String college, Date book_time, String duration_time, Long user_id, double good_comment, int cousult_number, Long comment_id, String main_chat_name) {
+    public CommentBookorderEntity(String name, String profile, String user_type, String college, Date book_time, String duration_time, Long user_id, double good_comment, int cousult_number, String main_chat_name) {
         this.name = name;
         this.profile = profile;
         this.user_type = user_type;
@@ -50,7 +51,6 @@ public class CommentBookorderEntity implements Serializable {
         this.user_id = user_id;
         this.good_comment = good_comment;
         this.cousult_number = cousult_number;
-        this.comment_id = comment_id;
         this.main_chat_name = main_chat_name;
     }
 
@@ -124,14 +124,6 @@ public class CommentBookorderEntity implements Serializable {
 
     public void setCousult_number(int cousult_number) {
         this.cousult_number = cousult_number;
-    }
-
-    public Long getComment_id() {
-        return comment_id;
-    }
-
-    public void setComment_id(Long comment_id) {
-        this.comment_id = comment_id;
     }
 
     public String getSub_chat_name() {

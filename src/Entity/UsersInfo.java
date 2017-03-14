@@ -21,6 +21,15 @@ public class UsersInfo {
     public UsersInfo() {
     }
 
+    /**
+     * 咨询过的学生列表的每一项数据信息
+     * @param id
+     * @param name
+     * @param college
+     * @param grade
+     * @param user_type
+     * @param profile
+     */
     public UsersInfo(long id, String name, String college, String grade, String user_type, String profile) {
         this.id = id;
         this.name = name;
